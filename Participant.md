@@ -17,8 +17,5 @@ The following will show up at the first time entering Participant instance Servi
 5. Tab `Nodes` -> expand menu of your target peer -> `Join New Channels` -> expand `Channel Name` dropdown -> select the target Founder channel
 
 
-### Graceful quit from Network
-WIP
-
 ## Reference
 - [Extend the Network](https://docs.oracle.com/en/cloud/paas/blockchain-cloud/usingoci/extend-network.html)
