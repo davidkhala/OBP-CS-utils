@@ -1,12 +1,14 @@
 {
   "name": "ochain-util",
-  "private": true,
   "version": "0.0.0",
   "scripts": {
     "test": "mocha test"
   },
   "dependencies": {
     "khala-fabric-formatter": "latest"
+  },
+  "bin": {
+    "obp-cli": "bin/obp-cli.js"
   },
   "devDependencies": {
     "mocha": "latest"
