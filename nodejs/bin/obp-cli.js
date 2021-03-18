@@ -9,7 +9,7 @@ switch (process.argv[2]) {
     case "certificate":
         // <command> certificate <file.json>
         const certificates = new Certificates(mspDir, mspID)
-        certificates.build(process.argv[4])
+        certificates.build(process.argv[3])
 
         break;
     case 'peer':
@@ -20,7 +20,7 @@ switch (process.argv[2]) {
             const [host,port] = peer.split(':');
             nodes.addPeer({host,port})
         }
-        nodes.build(process.argv[4])
+        nodes.build(process.argv[3])
 
         break;
     default:
