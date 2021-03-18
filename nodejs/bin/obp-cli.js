@@ -1,14 +1,26 @@
 #!/usr/bin/env node
-const CertificatesBundle = require("../certificatesBundle.js")
+const Certificates = require("../certificates")
+const Nodes = require("../nodes")
+const {mspID, mspDir = process.cwd()} = process.env
+if (!mspID) {
+    console.warn("mspID not found in process.env")
+}
 switch (process.argv[2]) {
     case "certificate":
-        // <command> certificate organization <file.json>
-        const {mspID, mspDir = process.cwd()} = process.env
-        if(!mspID){
-            console.warn("mspID not found in process.env")
+        // <command> certificate <file.json>
+        const certificates = new Certificates(mspDir, mspID)
+        certificates.build(process.argv[4])
+
+        break;
+    case 'peer':
+        // peers=peer0:7051;peer1:7051 <command> peer <file.json>
+        const nodes  = new Nodes(mspDir,mspID)
+        const peers = process.env.peers.split(";")
+        for (const peer of peers){
+            const [host,port] = peer.split(':');
+            nodes.addPeer({host,port})
         }
-        const certificatesBundle = new CertificatesBundle(mspDir, mspID)
-        certificatesBundle[process.argv[3]](process.argv[4])
+        nodes.build(process.argv[4])
 
         break;
     default:
