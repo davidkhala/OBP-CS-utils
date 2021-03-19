@@ -1,8 +1,12 @@
 #!/bin/sh
+##
+#Copyright (c) 2021, Oracle and/or its affiliates. All rights reserved.
+##
 WORK_DIR="${PWD}"
 NPM_GLOBAL=0
 NPM_PACKAGE=fabric-client
-NPM_PACKAGE_VER=@1.1.2
+NPM_CA_PACKAGE=fabric-ca-client
+NPM_PACKAGE_VER=@1.4.10
 NPM_ROOT_DIR=""
 
 usage()
@@ -25,16 +29,10 @@ check_arg()
   fi
 }
 
-edit_fabric_client()
+disable_grpc_alpn()
 {
-  declare -r file="${BASE_DIR}""/deps/grpc/src/core/lib/security/security_connector/security_connector.cc"
-  sed -i".orig" "s/if (p == nullptr) {/if (false) {/; s/if (\!grpc_chttp2_is_alpn_version_supported(p->value.data, p->value.length)) {/if (p \!= nullptr \&\& \!grpc_chttp2_is_alpn_version_supported(p->value.data, p->value.length)) {/" "${file}"
-}
-
-edit_code() {
-  if [ "$NPM_PACKAGE" = "fabric-client" ]; then
-    edit_fabric_client
-  fi
+  declare -r file="${BASE_DIR}/binding.gyp"
+  sed -i".orig" "s/'grpc_alpn%'\s*:.*,/'grpc_alpn%': 'false',/" "${file}"
 }
 
 rebuild_code() {
@@ -42,7 +40,16 @@ rebuild_code() {
     cd "${NPM_ROOT_DIR}""/""${NPM_PACKAGE}"
   fi
 
-  npm rebuild --unsafe-perm --build-from-source
+  npm rebuild --unsafe-perm --build-from-source --grpc_alpn=false
+}
+
+upgrade_grpc_package()
+{
+  if [ "$NPM_GLOBAL" -eq 1 ]; then
+    cd ${NPM_ROOT_DIR}/$NPM_PACKAGE
+  fi
+  npm install
+  rebuild_code
 }
 
 main() {
@@ -59,20 +66,23 @@ main() {
 
   if [ "$NPM_GLOBAL" -eq 1 ]; then
     BASE_DIR="${NPM_ROOT_DIR}""/$NPM_PACKAGE/node_modules/grpc"
+    PACK_DEFINE_FILE="${NPM_ROOT_DIR}""/$NPM_PACKAGE/package.json"
+    PACK_LOCK_FILE="${NPM_ROOT_DIR}""/$NPM_PACKAGE/package-lock.json"
     declare -r npm_option="--global --ignore-scripts"
   else
     BASE_DIR="./node_modules/grpc"
+    PACK_DEFINE_FILE="./node_modules/$NPM_PACKAGE/package.json"
+    PACK_LOCK_FILE="./package-lock.json"
     declare -r npm_option="--ignore-scripts"
   fi
 
+  npm install ${npm_option} log4js@5.1.0
+  npm install ${npm_option} fs-extra@6.0.1
   npm install ${npm_option} $NPM_PACKAGE$NPM_PACKAGE_VER
-  edit_code
-  rebuild_code
+  npm install ${npm_option} $NPM_CA_PACKAGE$NPM_PACKAGE_VER
+  upgrade_grpc_package
 
   cd "${WORK_DIR}"
-  npm install
 }
 
 main "$@"
-
-
