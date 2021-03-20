@@ -1,10 +1,11 @@
 const path = require('path')
-const Orderer = require('../orderer')
-const Nodes = require('../nodes')
+
 const assert = require('assert');
 
 describe('grpc ping', function () {
     this.timeout(30000)
+    const Orderers = require('../orderer')
+    const Nodes = require('../nodes')
     it('local peer', async () => {
 
         const settingsJSON = path.resolve('test/artifacts/davidkhala-exported-nodes.json')
@@ -26,7 +27,7 @@ describe('grpc ping', function () {
 
         const settingsJSON = path.resolve('test/artifacts/founder-orderer-settings.json')
 
-        const {orderers} = new Orderer().fromOrdererSettings(settingsJSON)
+        const orderers = Orderers.FromOrdererSettings(settingsJSON)
 
         for (const orderer of orderers) {
             const result = await orderer.ping()

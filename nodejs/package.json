@@ -16,6 +16,7 @@
     "obp-cli": "bin/obp-cli.js"
   },
   "devDependencies": {
-    "mocha": "latest"
+    "mocha": "latest",
+    "khala-fabric-sdk-node": "1.4.9-0.0.0"
   }
 }
