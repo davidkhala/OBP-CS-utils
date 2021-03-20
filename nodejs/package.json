@@ -5,8 +5,12 @@
     "test": "mocha test"
   },
   "dependencies": {
+    "fabric-ca-client": "^1.4.10",
+    "fabric-client": "^1.4.10",
+    "fs-extra": "^6.0.1",
     "khala-fabric-formatter": "latest",
-    "khala-fabric-sdk-node-builder": "latest-1.4"
+    "khala-fabric-sdk-node-builder": "latest-1.4",
+    "log4js": "^5.1.0"
   },
   "bin": {
     "obp-cli": "bin/obp-cli.js"

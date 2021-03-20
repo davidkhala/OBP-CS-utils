@@ -5,9 +5,17 @@ const assert = require('assert');
 
 describe('grpc ping', function () {
     this.timeout(30000)
-    it('peer', async () => {
+    it('local peer', async () => {
 
         const settingsJSON = path.resolve('test/artifacts/davidkhala-exported-nodes.json')
+        const peers = Nodes.FromExportedNodes(settingsJSON)
+        for (const peer of peers) {
+            const result = await peer.ping()
+            assert.ok(result)
+        }
+    })
+    it('OBP peer', async ()=>{
+        const settingsJSON = path.resolve('test/artifacts/founder-exported-nodes.json')
         const peers = Nodes.FromExportedNodes(settingsJSON)
         for (const peer of peers) {
             const result = await peer.ping()
@@ -21,8 +29,8 @@ describe('grpc ping', function () {
         const {orderers} = new Orderer().fromOrdererSettings(settingsJSON)
 
         for (const orderer of orderers) {
-
-            await orderer.ping()
+            const result = await orderer.ping()
+            assert.ok(result)
         }
 
     })

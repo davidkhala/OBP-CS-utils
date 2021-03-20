@@ -6,3 +6,5 @@ Oracle Blockchain Platform Cloud Service utils
 ## Reference
 - [npm_bcs_client.sh](https://git.orcl.asia/obcs/workshop/blob/master/npm_bcs_client.sh) can be accessed from 
   - OBP Service Console -> Tab `Developer Tools` -> `Application Development`
+## TODO 
+- allow ./npm_bcs_client_win.bat for windows
