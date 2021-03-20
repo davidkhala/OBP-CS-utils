@@ -8,3 +8,4 @@ Oracle Blockchain Platform Cloud Service utils
   - OBP Service Console -> Tab `Developer Tools` -> `Application Development`
 ## TODO 
 - allow ./npm_bcs_client_win.bat for windows
+- update from exiting source is buggy
