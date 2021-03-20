@@ -9,8 +9,21 @@ class ExportedNodes extends BaseClass {
         }
     }
 
+    static FromExportedNodes(jsonFile) {
+        const fs = require('fs')
+        const Peer = require('khala-fabric-sdk-node-builder/peer')
+        const {tlscacert, peers} = JSON.parse(fs.readFileSync(jsonFile, 'utf-8'))
+
+        return peers.map(({address})=>{
+            const [host,peerPort] = address.split('//')[1].split(':')
+            return new Peer({host, peerPort, pem: tlscacert})
+        })
+
+    }
+
     addPeer({host, port, displayName = `${host}:${port}`}) {
         const {mspID} = this
+        // FIXME property `nodeName` is required
         this.result.peers.push({
             displayName,
             address: `grpcs://${host}:${port}`,

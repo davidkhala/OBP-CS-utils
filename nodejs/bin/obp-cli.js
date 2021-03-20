@@ -14,11 +14,11 @@ switch (process.argv[2]) {
         break;
     case 'peer':
         // peers=peer0:7051;peer1:7051 <command> peer <file.json>
-        const nodes  = new Nodes(mspDir,mspID)
+        const nodes = new Nodes(mspDir, mspID)
         const peers = process.env.peers.split(";")
-        for (const peer of peers){
-            const [host,port] = peer.split(':');
-            nodes.addPeer({host,port})
+        for (const peer of peers) {
+            const [host, port] = peer.split(':');
+            nodes.addPeer({host, port})
         }
         nodes.build(process.argv[3])
 
