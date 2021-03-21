@@ -23,8 +23,8 @@ class ExportedNodes extends BaseClass {
 
     addPeer({host, port, displayName = `${host}:${port}`}) {
         const {mspID} = this
-        // FIXME property `nodeName` is required
         this.result.peers.push({
+            nodeName:host,
             displayName,
             address: `grpcs://${host}:${port}`,
             type: "Peer",

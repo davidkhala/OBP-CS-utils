@@ -1,6 +1,7 @@
 {
   "peers": [
     {
+      "nodeName": "peer0.davidkhala.com",
       "displayName": "peer0.davidkhala.com:7779",
       "address": "grpcs://peer0.davidkhala.com:7779",
       "type": "Peer",

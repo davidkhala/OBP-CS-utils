@@ -157,14 +157,14 @@ describe('Chaincode transaction', function () {
         await invoke(client, channelName, peers, eventHubs, {chaincodeId, fcn, args: [], transientMap}, orderer)
 
     })
-    it('query Private', async ()=>{
+    it('query private', async ()=>{
         const client = getAdmin_davidkhala_Client();
         const peers_david = Nodes.FromExportedNodes(path.resolve('test/artifacts/davidkhala-exported-nodes.json'))
         const peers_founder = Nodes.FromExportedNodes(path.resolve('test/artifacts/founder-exported-nodes.json'))
         const peers = peers_david.map(({peer}) => peer).concat(peers_founder.map(({peer}) => peer))
 
         const fcn = 'getPrivate'
-        const transientMap = {key: "value"}
+        const transientMap = {key: ""}
 
         const rawResult = await transactionProposal(client, peers, channelName, {chaincodeId, fcn, args: [], transientMap})
         const result = getPayloads(rawResult)
