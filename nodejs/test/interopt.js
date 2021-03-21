@@ -1,21 +1,49 @@
 const path = require('path')
+const fs = require('fs')
 const assert = require('assert')
-const {ObjectEqual} = require('khala-nodeutils/helper')
+const {ObjectEqual, homeResolve} = require('khala-nodeutils/helper')
+const Nodes = require('../nodes')
+const {loadFrom} = require('khala-fabric-sdk-node/user')
+const Client = require('khala-fabric-sdk-node-builder/client')
+const UserBuilder = require('khala-fabric-sdk-node-builder/user')
+const getAdmin_davidkhala_Client = () => {
+    const mspConfigPath = path.resolve('test/crypto-config/peerOrganizations/davidkhala.com/users/Admin@davidkhala.com/msp')
+    const mspId = 'davidkhala-com'
+    const client = new Client()
+    const user = loadFrom(mspConfigPath, 'Admin', mspId)
+    client.setUser(user)
+    return client.client
+}
+const getAdmin_founder_Client = () => {
+    const builder = new UserBuilder({name: 'Admin'});
+    const mspId = 'founder'
+    const keystore = path.resolve('test/artifacts/founder-admin-credential/founder-key');
+    const signcert = path.resolve('test/artifacts/founder-admin-credential/founder-cert.pem')
+    const user = builder.build({
+        key: fs.readFileSync(keystore),
+        certificate: fs.readFileSync(signcert),
+        mspId
+    });
+
+    const client = new Client()
+    client.setUser(user)
+    return client.client
+}
 describe('join channel', function () {
     this.timeout(30000);
     const Orderers = require('../orderer')
-    const Nodes = require('../nodes')
+
     const {join} = require('khala-fabric-sdk-node/channel')
     const Channel = require('khala-fabric-sdk-node-builder/channel')
-    const Client = require('khala-fabric-sdk-node-builder/client')
-    const {loadFrom} = require('khala-fabric-sdk-node/user')
+
+
     const channelName = 'default'
     const settingsJSON = path.resolve('test/artifacts/founder-orderer-settings.json')
 
 
     const orderers = Orderers.FromOrdererSettings(settingsJSON)
     const {orderer} = orderers[0]
-    it('try', async () => {
+    it('join', async () => {
         const settingsJSON = path.resolve('test/artifacts/davidkhala-exported-nodes.json')
         const peers = Nodes.FromExportedNodes(settingsJSON)
 
@@ -37,14 +65,45 @@ describe('join channel', function () {
         const peers = Nodes.FromExportedNodes(settingsJSON)
         const {peer} = peers[0]
 
-        const mspConfigPath = path.resolve('test/crypto-config/peerOrganizations/davidkhala.com/users/Admin@davidkhala.com/msp')
-        const mspId = 'davidkhala-com'
-        const client = new Client()
-        const user = loadFrom(mspConfigPath, 'Admin', mspId)
-        client.setUser(user)
 
-        const result = await channelJoined(peer, client.client)
+        const client = getAdmin_davidkhala_Client()
 
+        const result = await channelJoined(peer, client)
+        console.debug(result)
         assert.ok(ObjectEqual(result, {channels: [{channel_id: 'default'}]}))
     })
+})
+describe('install chaincode', function () {
+    this.timeout(60000)
+    const chaincodeId = 'diagnose'
+    const {install} = require('khala-fabric-sdk-node/chaincode')
+    const {setGOPATH} = require('khala-fabric-sdk-node/golang')
+    it('install', async () => {
+        const chaincodePath = 'github.com/davidkhala/chaincode/golang/diagnose'
+        const chaincodeVersion = 'v1'
+        const peers_david = Nodes.FromExportedNodes(path.resolve('test/artifacts/davidkhala-exported-nodes.json'))
+
+        const client_david = getAdmin_davidkhala_Client();
+        await setGOPATH()
+        const results0 = await install([peers_david[0].peer], {
+            chaincodeId,
+            chaincodePath,
+            chaincodeVersion
+        }, client_david)
+
+        console.debug('install towards davidkhala.com', results0)
+        const peers_founder = Nodes.FromExportedNodes(path.resolve('test/artifacts/founder-exported-nodes.json'))
+
+        const client_founder = getAdmin_founder_Client()
+
+        const results1 = await install(peers_founder.map(({peer}) => peer), {
+            chaincodeId,
+            chaincodePath,
+            chaincodeVersion
+        }, client_founder)
+        console.debug('install towards founder', results1)
+        `OR('founder.member', 'davidkhala-com.member')`
+    })
+
+
 })

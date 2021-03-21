@@ -14,20 +14,16 @@ describe('json generator', () => {
     })
     it('exported peers', () => {
         const ExportedPeers = require('../nodes')
-        const mspPath = path.resolve(__dirname, 'crypto-config', 'peerOrganizations', 'org0.example.com', 'msp')
-        const mspID = 'org0-example-com'
+        const mspPath = path.resolve(__dirname, 'crypto-config', 'peerOrganizations', 'davidkhala.com', 'msp')
+        const mspID = 'davidkhala-com'
         const exportedPeers = new ExportedPeers(mspPath, mspID)
         exportedPeers.addPeer({
-            host: 'peer0.org0.example.com',
-            port: 7051,
+            host: 'peer0.davidkhala.com',
+            port: 7779,
 
         })
-        exportedPeers.addPeer({
-            host: 'peer1.org0.example.com',
-            port: 8051,
-        })
+
         exportedPeers.build('exportedPeers.json')
-
+        fs.unlinkSync('exportedPeers.json')
     })
-
 })
