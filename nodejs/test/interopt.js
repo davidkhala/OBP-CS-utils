@@ -116,7 +116,7 @@ describe('deploy chaincode', function () {
 describe('Chaincode transaction', function () {
     this.timeout(30000)
     const {transactionProposal} = require('khala-fabric-sdk-node-builder/transaction')
-    const {getPayloads} = require('khala-fabric-formatter/txProposal')
+    const {getPayloads, transientMapTransform} = require('khala-fabric-formatter/txProposal')
     const {invoke} = require('khala-fabric-sdk-node/chaincodeHelper')
     const Eventhub = require('khala-fabric-sdk-node-builder/eventHub')
     const ChannelManager = require('khala-fabric-sdk-node-builder/channel')
@@ -135,14 +135,14 @@ describe('Chaincode transaction', function () {
         const result = getPayloads(rawResult)
         console.info(result)
     })
-    it('invoke', async () => {
+    it('invoke private', async () => {
         const client = getAdmin_davidkhala_Client();
         const peers_david = Nodes.FromExportedNodes(path.resolve('test/artifacts/davidkhala-exported-nodes.json'))
         const peers_founder = Nodes.FromExportedNodes(path.resolve('test/artifacts/founder-exported-nodes.json'))
-
         const peers = peers_david.map(({peer}) => peer).concat(peers_founder.map(({peer}) => peer))
+
         const fcn = 'putPrivate'
-        const transientMap = {key: "value"}
+        const transientMap = transientMapTransform({key: "value"})
 
         const {channel} = new ChannelManager({channelName, client})
         const eventHubs = peers.map(peer => new Eventhub(channel, peer));
@@ -154,8 +154,22 @@ describe('Chaincode transaction', function () {
         const orderer = orderers[0]
 
 
-        const rawResult = await invoke(client, channelName, peers, eventHubs, {chaincodeId, fcn, args: [], transientMap}, orderer)
+        await invoke(client, channelName, peers, eventHubs, {chaincodeId, fcn, args: [], transientMap}, orderer)
+
+    })
+    it('query Private', async ()=>{
+        const client = getAdmin_davidkhala_Client();
+        const peers_david = Nodes.FromExportedNodes(path.resolve('test/artifacts/davidkhala-exported-nodes.json'))
+        const peers_founder = Nodes.FromExportedNodes(path.resolve('test/artifacts/founder-exported-nodes.json'))
+        const peers = peers_david.map(({peer}) => peer).concat(peers_founder.map(({peer}) => peer))
+
+        const fcn = 'getPrivate'
+        const transientMap = {key: "value"}
+
+        const rawResult = await transactionProposal(client, peers, channelName, {chaincodeId, fcn, args: [], transientMap})
         const result = getPayloads(rawResult)
         console.info(result)
+
     })
+
 })
