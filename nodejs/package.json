@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "test": "mocha test",
-    "postinstall": "bin/post-install.js"
+    "postinstall": "node bin/post-install.js"
   },
   "dependencies": {
     "fabric-ca-client": "^1.4.10",
