@@ -25,6 +25,11 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.12
+    - run: go get github.com/davidkhala/chaincode
     - run: cd nodejs; npm run build
     - run: cd nodejs; npm test
-  
+    
