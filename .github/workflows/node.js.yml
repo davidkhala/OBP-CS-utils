@@ -11,7 +11,7 @@ on:
 
 jobs:
   install-test:
-
+    timeout-minutes: 10
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -25,7 +25,6 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: cd nodejs; npm i
     - run: cd nodejs; npm build
     - run: cd nodejs; npm test
   
