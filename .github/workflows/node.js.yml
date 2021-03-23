@@ -26,5 +26,6 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: cd nodejs; npm i
+    - run: cd nodejs; npm build
     - run: cd nodejs; npm test
   
