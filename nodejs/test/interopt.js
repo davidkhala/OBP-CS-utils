@@ -29,21 +29,23 @@ const getAdmin_founder_Client = () => {
     client.setUser(user)
     return client.client
 }
+const ChannelManager = require('khala-fabric-sdk-node-builder/channel')
+const Orderers = require('../orderer')
+const channelName = 'default'
 describe('join channel', function () {
     this.timeout(30000);
-    const Orderers = require('../orderer')
+
 
     const {join} = require('khala-fabric-sdk-node/channel')
     const Channel = require('khala-fabric-sdk-node-builder/channel')
 
 
-    const channelName = 'default'
     const settingsJSON = path.resolve('test/artifacts/founder-orderer-settings.json')
 
 
     const orderers = Orderers.FromOrdererSettings(settingsJSON)
     const {orderer} = orderers[0]
-    it('join', async () => {
+    it('', async () => {
         const settingsJSON = path.resolve('test/artifacts/davidkhala-exported-nodes.json')
         const peers = Nodes.FromExportedNodes(settingsJSON)
 
@@ -70,7 +72,7 @@ describe('join channel', function () {
 
         const result = await channelJoined(peer, client)
         console.debug(result)
-        assert.ok(ObjectEqual(result, {channels: [{channel_id: 'default'}]}))
+        assert.ok(ObjectEqual(result, {channels: [{channel_id: channelName}]}))
     })
 })
 describe('deploy chaincode', function () {
@@ -119,10 +121,9 @@ describe('Chaincode transaction', function () {
     const {getPayloads, transientMapTransform} = require('khala-fabric-formatter/txProposal')
     const {invoke} = require('khala-fabric-sdk-node/chaincodeHelper')
     const Eventhub = require('khala-fabric-sdk-node-builder/eventHub')
-    const ChannelManager = require('khala-fabric-sdk-node-builder/channel')
+
     const {FromOrdererSettings} = require('../orderer')
     const chaincodeId = 'diagnose'
-    const channelName = 'default'
     it('query', async () => {
         const fcn = 'whoami'
         const client = getAdmin_davidkhala_Client();
@@ -157,7 +158,7 @@ describe('Chaincode transaction', function () {
         await invoke(client, channelName, peers, eventHubs, {chaincodeId, fcn, args: [], transientMap}, orderer)
 
     })
-    it('query private', async ()=>{
+    it('query private', async () => {
         const client = getAdmin_davidkhala_Client();
         const peers_david = Nodes.FromExportedNodes(path.resolve('test/artifacts/davidkhala-exported-nodes.json'))
         const peers_founder = Nodes.FromExportedNodes(path.resolve('test/artifacts/founder-exported-nodes.json'))
@@ -166,10 +167,31 @@ describe('Chaincode transaction', function () {
         const fcn = 'getPrivate'
         const transientMap = {key: ""}
 
-        const rawResult = await transactionProposal(client, peers, channelName, {chaincodeId, fcn, args: [], transientMap})
+        const rawResult = await transactionProposal(client, peers, channelName, {
+            chaincodeId,
+            fcn,
+            args: [],
+            transientMap
+        })
         const result = getPayloads(rawResult)
         console.info(result)
 
     })
 
+})
+describe('fetch block', () => {
+    process.env.binPath = path.resolve(__dirname, 'bin')
+    const {getChannelConfigReadable} = require('khala-fabric-sdk-node/channelConfig')
+    it('latest config', async () => {
+        const client = getAdmin_davidkhala_Client();
+        const {channel} = new ChannelManager({channelName, client})
+        const peers_david = Nodes.FromExportedNodes(path.resolve('test/artifacts/davidkhala-exported-nodes.json'))
+        const {peer} = peers_david[0]
+        const orderers = Orderers.FromOrdererSettings(path.resolve('test/artifacts/founder-orderer-settings.json'))
+        const {orderer} = orderers[0]
+
+        const {configJSON} = await getChannelConfigReadable(channel, {peer, orderer})
+        fs.writeFileSync(`${channelName}.json`, JSON.stringify(JSON.parse(configJSON), null, 2))
+
+    })
 })
