@@ -179,19 +179,26 @@ describe('Chaincode transaction', function () {
     })
 
 })
-describe('fetch block', () => {
+describe('fetch block', function () {
+    this.timeout(3000)
     process.env.binPath = path.resolve(__dirname, 'bin')
     const {getChannelConfigReadable} = require('khala-fabric-sdk-node/channelConfig')
-    it('latest config', async () => {
+    it('latest config from peer', async () => {
         const client = getAdmin_davidkhala_Client();
         const {channel} = new ChannelManager({channelName, client})
         const peers_david = Nodes.FromExportedNodes(path.resolve('test/artifacts/davidkhala-exported-nodes.json'))
         const {peer} = peers_david[0]
+
+        const {configJSON} = await getChannelConfigReadable(channel, {peer})
+        fs.writeFileSync(`${channelName}.json`, configJSON)
+
+    })
+    it('latest config from orderer', async () => {
+        const client = getAdmin_founder_Client();
+        const {channel} = new ChannelManager({channelName, client})
         const orderers = Orderers.FromOrdererSettings(path.resolve('test/artifacts/founder-orderer-settings.json'))
         const {orderer} = orderers[0]
-
-        const {configJSON} = await getChannelConfigReadable(channel, {peer, orderer})
-        fs.writeFileSync(`${channelName}.json`, JSON.stringify(JSON.parse(configJSON), null, 2))
-
+        const {configJSON} = await getChannelConfigReadable(channel, {orderer})
+        fs.writeFileSync(`${channelName}.json`, configJSON)
     })
 })
