@@ -6,6 +6,7 @@ Oracle Blockchain Platform Cloud Service utils
 - native fabric peer joined channel cannot be listed in Tab `Channels`
 - channel menu -> `Join Peers to Channel` cannot perform joining `Remote Peer` in tab `Nodes` to channel
 - npm_bcs_client script will not break usual grpc connection, it is compatible
+- You can't do an chaincode Invoke if you are a read-only org.
 ## Reference
 - npm_bcs_client scripts can be accessed from 
   - OBP Service Console -> Tab `Developer Tools` -> `Application Development`
