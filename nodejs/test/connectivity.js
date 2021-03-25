@@ -15,7 +15,7 @@ describe('grpc ping', function () {
             assert.ok(result)
         }
     })
-    it('OBP peer', async ()=>{
+    it('OBP peer', async () => {
         const settingsJSON = path.resolve('test/artifacts/founder-exported-nodes.json')
         const peers = Nodes.FromExportedNodes(settingsJSON)
         for (const peer of peers) {
@@ -34,5 +34,14 @@ describe('grpc ping', function () {
             assert.ok(result)
         }
 
+    })
+})
+describe('http ping', function () {
+    this.timeout(3000)
+    const {ping} = require('khala-fabric-sdk-node/ca')
+    it('ca', async () => {
+        const caUrl = 'https://founder-4-hktwlab-iad.blockchain.ocp.oraclecloud.com:7443'
+        const result = await ping(caUrl)
+        console.info(result)
     })
 })
