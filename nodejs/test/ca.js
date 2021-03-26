@@ -6,18 +6,21 @@ const AffiliationService = require('khala-fabric-sdk-node-builder/affiliationSer
 const IdentityService = require('khala-fabric-sdk-node-builder/identityService')
 
 describe('ca info list', function () {
-    this.timeout(3000)
+    this.timeout(30000)
     const caUrl = 'https://founder-4-hktwlab-iad.blockchain.ocp.oraclecloud.com:7443'
     const CAName = 'founderca'
-    const {caService} = new CAService(caUrl, undefined,CAName)
+    const {caService} = new CAService(caUrl, undefined, CAName)
     const {_userContext: admin} = getAdmin_founder_Client();
 
 
-    it.skip('initAdmin is not allowed: 401', async () => {
-        const enrollmentID = `Admin-${Date.now()}`
-        const enrollmentSecret = 'password'
-        const result = await caService.enroll({enrollmentID, enrollmentSecret});
-        console.log(result)
+    it('enroll: required Oracle IDCS credential', async () => {
+        const enrollmentID = process.env.IDCS_ID
+        const enrollmentSecret = process.env.IDCS_PASSWORD
+
+        const {certificate, rootCertificate, key} = await caService.enroll({enrollmentID, enrollmentSecret});
+        console.info({certificate})
+        console.info({rootCertificate})
+        console.debug(key)
     })
     it.skip('list affiliation', async () => {
         const {affiliationService} = new AffiliationService(caService);
@@ -30,13 +33,5 @@ describe('ca info list', function () {
         for (const id of allIDs) {
             console.info(id.id, id.attrs);
         }
-    })
-    it.skip('register with timestamp', async () => {
-
-
-        const enrollmentID = `user-${Date.now()}`
-        const affiliation = 'founder'
-        const {enrollmentSecret} = await register(caService, admin, {enrollmentID, role: 'user', affiliation})
-        fs.writeFileSync(enrollmentID, enrollmentSecret)
     })
 })
