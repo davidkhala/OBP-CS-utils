@@ -12,11 +12,17 @@ describe('ca', function () {
     const CAName = 'founderca'
     const {caService} = new CAService(caUrl, undefined, CAName)
     const enrollmentID = process.env.IDCS_ID
+    if (!enrollmentID) {
+        throw Error('process.env.IDCS_ID not found')
+    }
     const enrollmentSecret = process.env.IDCS_PASSWORD
-    const userBuilder = new UserBuilder({name:enrollmentID})
+    if (!enrollmentSecret) {
+        throw  Error('process.env.IDCS_PASSWORD not found')
+    }
+    const userBuilder = new UserBuilder({name: enrollmentID})
 
-    const keystore=path.resolve(`test/artifacts/founder-user-credential/${enrollmentID}-key`)
-    const signcert= path.resolve(`test/artifacts/founder-user-credential/${enrollmentID}-cert.pem`)
+    const keystore = path.resolve(`test/artifacts/founder-user-credential/${enrollmentID}-key`)
+    const signcert = path.resolve(`test/artifacts/founder-user-credential/${enrollmentID}-cert.pem`)
     it('enroll: required Oracle IDCS credential', async () => {
 
 
@@ -34,12 +40,12 @@ describe('ca', function () {
         const user = userBuilder.build({
             key: fs.readFileSync(keystore),
             certificate: fs.readFileSync(signcert),
-            mspId:'founder'
+            mspId: 'founder'
         });
         const {affiliationService} = new AffiliationService(caService);
         try {
             await affiliationService.getAll(user)
-        }catch (e){
+        } catch (e) {
             // Failed to get affiliation: Not supported
             assert.strictEqual(`fabric-ca request affiliations failed with errors [[{"code":49,"message":"Failed to get affiliation: Not supported"}]]`, e.message)
         }
@@ -50,13 +56,13 @@ describe('ca', function () {
         const user = userBuilder.build({
             key: fs.readFileSync(keystore),
             certificate: fs.readFileSync(signcert),
-            mspId:'founder'
+            mspId: 'founder'
         });
         const idService = new IdentityService(caService);
         try {
             await idService.getAll(user);
-        }catch (e){
-            assert.strictEqual(`fabric-ca request identities?ca=founderca failed with errors [[{"code":49,"message":"Failed to get users by affiliation and type: Not supported"}]]`,e.message)
+        } catch (e) {
+            assert.strictEqual(`fabric-ca request identities?ca=founderca failed with errors [[{"code":49,"message":"Failed to get users by affiliation and type: Not supported"}]]`, e.message)
         }
     })
 })
