@@ -17,4 +17,4 @@ Oracle Blockchain Platform Cloud Service utils
 ## TODO 
 - allow ./npm_bcs_client_win.bat for windows
 - [manage-certificates](https://docs.oracle.com/en/cloud/paas/blockchain-cloud/usingoci/manage-certificates.html#GUID-B27A3F26-3592-4F38-8AD3-37D29362854B)
-
+- [REST API](https://docs.oracle.com/en/cloud/paas/blockchain-cloud/rest-api/rest-endpoints.html)
