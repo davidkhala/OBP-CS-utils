@@ -1,56 +1,36 @@
 const {axiosPromise} = require('khala-axios')
-const assert = require('assert')
 
 class ConnectionContext {
-    constructor({username, password, Route}) {
+    constructor({username, password, route}) {
         if (!username) {
             throw Error('Missing username')
         }
         if (!password) {
             throw Error('Missing password')
         }
-        Object.assign(this, {username, password, Route})
+        Object.assign(this, {username, password, route})
     }
 
     async http({resourcePath, body, method, formData, params}, otherOptions = {}) {
-        const {username, password, Route} = this
+        const {username, password, route} = this
         Object.assign(otherOptions, {auth: {username, password}})
-        const url = `${Route}/${resourcePath}`
+        const url = `${route}/${resourcePath}`
         return axiosPromise({url, body, method, formData, params}, otherOptions)
     }
+}
 
-    async version() {
-        const resourcePath = '/restproxy/bcsgw/rest/version'
-        const {version, returnCode} = await this.http({resourcePath, method: 'GET'})
-        assert.strictEqual(returnCode, 'Success')
-        return version
+class Route {
+    static From(instance, sequence, tenancy, RegionKey) {
+        return `https://${instance}-${sequence}-${tenancy}-${RegionKey.toLowerCase()}.blockchain.ocp.oraclecloud.com:7443`
+    }
+
+    static FromDomain(domain) {
+        return `https://${domain}:7443`
     }
 }
 
-const buildRoute = (instance, sequence, tenancy, RegionKey) => {
-    return `https://${instance}-${sequence}-${tenancy}-${RegionKey.toLowerCase()}.blockchain.ocp.oraclecloud.com:7443`
-}
-const buildRouteFromDomain = (domain) => {
-    return `https://${domain}:7443`
-}
-/**
- * @enum {string}
- */
-const SupportedMethod = {
-    GET: "GET",
-    POST: "POST",
-    PATCH: "PATCH",
-    DELETE: "DELETE"
-}
-/**
- * @enum {string}
- */
-const ReturnCode = {
-    SUCCESS: 'Success'
-}
+
 module.exports = {
     ConnectionContext,
-    buildRouteFromDomain,
-    SupportedMethod,
-    ReturnCode
+    Route,
 }

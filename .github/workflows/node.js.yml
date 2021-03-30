@@ -33,6 +33,7 @@ jobs:
         timeout-minutes: 30
       - run: cd nodejs; npm test
         timeout-minutes: 10
+      - run: cd nodejs-rest; npm install
       - run: cd nodejs-rest; npm test
   windows:
     runs-on: windows-latest
