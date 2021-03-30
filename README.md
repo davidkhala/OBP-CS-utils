@@ -7,7 +7,7 @@ Oracle Blockchain Platform Cloud Service utils
 - channel menu -> `Join Peers to Channel` cannot perform joining `Remote Peer` in tab `Nodes` to channel
 - npm_bcs_client script will not break usual grpc connection, it is compatible
 - `./npm_bcs_client.sh: 56: declare: not found` indicate `declare` is undefined in `#!/bin/sh`, but in `#!/bin/bash`   
-- You can't do an chaincode Invoke if you are a read-only org.
+- You can't do a chaincode Invoke if you are a read-only org.
 
 ## Reference
 - npm_bcs_client scripts can be accessed from 
@@ -18,3 +18,5 @@ Oracle Blockchain Platform Cloud Service utils
 - allow ./npm_bcs_client_win.bat for windows
 - [manage-certificates](https://docs.oracle.com/en/cloud/paas/blockchain-cloud/usingoci/manage-certificates.html#GUID-B27A3F26-3592-4F38-8AD3-37D29362854B)
 - [REST API](https://docs.oracle.com/en/cloud/paas/blockchain-cloud/rest-api/rest-endpoints.html)
+## Limitation
+- handicapped channel policy management console 

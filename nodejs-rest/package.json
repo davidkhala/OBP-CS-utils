@@ -1,0 +1,13 @@
+{
+  "name": "ochain-rest",
+  "version": "0.0.0",
+  "scripts": {
+    "test": "mocha test"
+  },
+  "dependencies": {
+    "khala-axios": "^1.0.0"
+  },
+  "devDependencies": {
+    "mocha": "^8.3.2"
+  }
+}
