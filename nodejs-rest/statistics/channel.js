@@ -1,7 +1,7 @@
 const Statistics = require('./index')
 
 /**
- * @typedef {Object} ChannelInfoItem
+ * @typedef {Object} ChannelInfo
  * @property {string} channelName
  * @property {number} peerNum
  * @property {string[]} peers
@@ -10,11 +10,10 @@ const Statistics = require('./index')
 
 class Channel extends Statistics {
     /**
-     * @returns {Promise<Array<ChannelInfoItem>>}
+     * @returns {Promise<Array<ChannelInfo>>}
      */
     async channelInfo() {
-        const {data} = await this._get('channelInfo')
-        return data
+        return this._get('channelInfo')
     }
 }
 
