@@ -20,3 +20,4 @@ Oracle Blockchain Platform Cloud Service utils
 - [REST API](https://docs.oracle.com/en/cloud/paas/blockchain-cloud/rest-api/rest-endpoints.html)
 ## Limitation
 - handicapped channel policy management console 
+- You can only subscribe to events via a REST proxy entity within the founder instance - not to participants in the network. This is due to the REST proxies using Kafka to handle events and non-founder instances don't have Kafka running.
