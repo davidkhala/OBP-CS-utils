@@ -1,21 +1,21 @@
 const {axiosPromise} = require('khala-axios')
 
 class ConnectionContext {
-    constructor({username, password, route}) {
+    constructor({username, password, route}, logger = console) {
         if (!username) {
             throw Error('Missing username')
         }
         if (!password) {
             throw Error('Missing password')
         }
-        Object.assign(this, {username, password, route})
+        Object.assign(this, {username, password, route, logger})
     }
 
-    async http({resourcePath, body, method, formData, params}, otherOptions = {}) {
+    async http({resourcePath, body, method, params}, otherOptions = {}) {
         const {username, password, route} = this
         Object.assign(otherOptions, {auth: {username, password}})
         const url = `${route}/${resourcePath}`
-        return axiosPromise({url, body, method, formData, params}, otherOptions)
+        return axiosPromise({url, body, method, params}, otherOptions)
     }
 }
 

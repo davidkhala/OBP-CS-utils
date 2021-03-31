@@ -5,7 +5,8 @@
     "test": "mocha test"
   },
   "dependencies": {
-    "khala-axios": "^1.0.0"
+    "khala-axios": "^1.0.0",
+    "dateformat": "^4.5.1"
   },
   "devDependencies": {
     "mocha": "^8.3.2"

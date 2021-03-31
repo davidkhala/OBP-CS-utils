@@ -1,5 +1,5 @@
 const Statistics = require('./index')
-
+const dateformat = require('dateformat')
 /**
  * @typedef {Object} _nodeBaseInfo
  * @property {string} nodeId
@@ -30,11 +30,20 @@ class Node extends Statistics {
     }
 
     /**
+     * TODO
      * This endpoint is used to get the node usage related metrics such as CPU, memory, and disk usage percentages, reflecting the health metrics you can see on the console.
      * @returns {Promise<Array<OCIMetric>>}
      */
-    async OCI() {
-        return this._get('nodeRes')
+    async OCI({nodeID, startTime, endTime} = {}) {
+        const params = {nodeID}
+        const mask = 'yyyymmddhhmmss'
+        if (startTime) {
+            params.startTime = dateformat(startTime, mask)
+        }
+        if (endTime) {
+            params.endTime = dateformat(endTime, mask)
+        }
+        return this._get('nodeRes', params)
     }
 }
 

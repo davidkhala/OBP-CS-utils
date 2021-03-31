@@ -2,10 +2,10 @@ const BasePath = 'console/admin/api/v1.1/dashboard/statistics'
 const {ConnectionContext} = require('../index')
 
 class Statistics extends ConnectionContext {
-    async _get(token) {
+    async _get(token, params) {
         const resourcePath = `${BasePath}/${token}`
         const method = 'GET'
-        const {data} = await this.http({resourcePath, method})
+        const {data} = await this.http({resourcePath, method, params})
         return data
     }
 }
