@@ -1,4 +1,5 @@
 const {axiosPromise} = require('khala-axios')
+const dateformat = require('date-format')
 
 class ConnectionContext {
     constructor({username, password, route}, logger = console) {
@@ -16,6 +17,24 @@ class ConnectionContext {
         Object.assign(otherOptions, {auth: {username, password}})
         const url = `${route}/${resourcePath}`
         return axiosPromise({url, body, method, params}, otherOptions)
+    }
+
+    /**
+     *
+     * @param {number} [startTime] Epoch millisecond
+     * @param {number} [endTime] Epoch millisecond
+     * @return {{startTime:string,endTime:string}}
+     */
+    static dateFormat({startTime, endTime}) {
+        const mask = 'yyyyMMddhhmmss'
+        const result = {}
+        if (startTime) {
+            result.startTime = dateformat(mask, new Date(startTime))
+        }
+        if (endTime) {
+            result.endTime = dateformat(mask, new Date(endTime))
+        }
+        return result
     }
 }
 
