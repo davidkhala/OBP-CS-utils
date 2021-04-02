@@ -37,6 +37,9 @@ jobs:
       - run: cd nodejs-rest; npm test
   windows:
     runs-on: windows-latest
+    env:
+      IDCS_ID: ${{ secrets.IDCS_ID }}
+      IDCS_PASSWORD: ${{ secrets.IDCS_PASSWORD }}
     strategy:
       matrix:
         node-version: [ 10.x ]
@@ -55,3 +58,5 @@ jobs:
       - run: |
           . https://raw.githubusercontent.com/davidkhala/windows-utils/master/golang/goCmd.ps1
           Get-GO-Repos github.com/davidkhala/chaincode
+      - run: cd nodejs; npm test
+        timeout-minutes: 10

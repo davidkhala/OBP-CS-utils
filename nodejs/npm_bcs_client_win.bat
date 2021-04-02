@@ -23,7 +23,6 @@ if "%argC%" == "1" (
   )
 )
 echo "IMPORTANT: Due to https://github.com/nodejs/node/issues/4932, to build grpc-node on Windows, you must first remove (node_root_dir)/include/node/openssl/. Please do that before you continue."
-pause
 
 for /f %%i in ('npm root -g') do set NPM_GLOBAL_ROOT=%%i
 if "%NPM_GLOBAL%" == "1" (
