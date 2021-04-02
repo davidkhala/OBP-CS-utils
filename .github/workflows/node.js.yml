@@ -56,7 +56,7 @@ jobs:
       - run: cd nodejs; npm run build
         timeout-minutes: 30
       - run: |
-          . https://raw.githubusercontent.com/davidkhala/windows-utils/master/golang/goCmd.ps1
+          (Invoke-WebRequest "https://raw.githubusercontent.com/davidkhala/windows-utils/master/golang/goCmd.ps1").Content | Invoke-Expression
           Get-GO-Repos github.com/davidkhala/chaincode
       - run: cd nodejs; npm test
         timeout-minutes: 10
