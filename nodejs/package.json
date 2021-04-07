@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "test": "mocha test",
+    "ping": "mocha test/connectivity.js",
     "build": "node bin/replace-install.js"
   },
   "dependencies": {
