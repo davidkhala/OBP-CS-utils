@@ -159,7 +159,7 @@ describe('Chaincode transaction', function () {
 })
 describe('fetch block', function () {
     this.timeout(3000)
-    process.env.binPath = path.resolve(__dirname, 'bin')
+    process.env.binPath = path.resolve(__dirname, `bin-${process.platform}`)
     const {getChannelConfigReadable} = require('khala-fabric-sdk-node/channelConfig')
     it('latest config from peer', async () => {
         const client = getAdmin_davidkhala_Client();

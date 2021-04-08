@@ -8,14 +8,15 @@ on:
     branches: [ main ]
 
 jobs:
-  ubuntu:
-    runs-on: ubuntu-latest
+  unix:
+    runs-on: ${{ matrix.os }}
     env:
       IDCS_ID: ${{ secrets.IDCS_ID }}
       IDCS_PASSWORD: ${{ secrets.IDCS_PASSWORD }}
     strategy:
       matrix:
         node-version: [ 10.x, 14.x ]
+        os: [ubuntu-latest, macos-latest]
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
