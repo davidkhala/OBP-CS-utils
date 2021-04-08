@@ -11,6 +11,7 @@ describe('upload', function () {
     it('certificates', async () => {
         const Upload = require('../organizations/upload')
         const upload = new Upload(context)
+        // TODO WIP
         try {
             await upload.certificateFiles(davidkhalaCertificatesJson)
         }catch (e){

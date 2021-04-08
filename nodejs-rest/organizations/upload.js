@@ -50,7 +50,6 @@ class Upload extends Organizations {
     static OrgInfoFromFile(certificatesJson) {
         const {mspID, certs, signature} = JSON.parse(fs.readFileSync(certificatesJson, 'utf-8'))
 
-
         const {
             nodeouidentifiercert,
             rafttlscacert,

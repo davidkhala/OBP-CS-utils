@@ -12,7 +12,7 @@
     "fs-extra": "^6.0.1",
     "khala-fabric-formatter": "latest-1.4",
     "khala-fabric-sdk-node": "latest-1.4",
-    "khala-fabric-sdk-node-builder": "1.4.4-0.0.1",
+    "khala-fabric-sdk-node-builder": "1.4.5-0.0.0",
     "log4js": "^5.1.0"
   },
   "bin": {
