@@ -9,7 +9,7 @@ const Client = require('khala-fabric-sdk-node-builder/client')
 const {getAdmin_davidkhala_Client, getAdmin_founder_Client} = require('./testUtil')
 const ChannelManager = require('khala-fabric-sdk-node-builder/channel')
 const Orderers = require('../orderer')
-const channelName = 'default'
+const channelName = process.env.channel || 'default'
 describe('join channel', function () {
     this.timeout(30000);
 

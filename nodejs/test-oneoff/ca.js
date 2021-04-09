@@ -14,7 +14,7 @@ const enrollmentSecret = process.env.IDCS_PASSWORD
 if (!enrollmentSecret) {
     throw  Error('process.env.IDCS_PASSWORD not found')
 }
-
+const channelName = process.env.channel || 'default'
 const keystore = path.resolve(`test/artifacts/founder-user-credential/${enrollmentID}-key`)
 const signcert = path.resolve(`test/artifacts/founder-user-credential/${enrollmentID}-cert.pem`)
 const getUser = () => {
@@ -29,7 +29,7 @@ const QueryAsNormalUser = async () => {
     const Client = require('khala-fabric-sdk-node-builder/client')
     const user = getUser()
     const {client} = new Client().setUser(user)
-    const channelName = 'default'
+
     const fcn = 'whoami'
     const chaincodeId = 'diagnose'
 

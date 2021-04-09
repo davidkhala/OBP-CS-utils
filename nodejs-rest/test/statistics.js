@@ -2,6 +2,7 @@ const Channel = require('../statistics/channel')
 const Node = require('../statistics/node')
 const assert = require('assert')
 const {getContext} = require('./testUtil')
+const channelName = process.env.channel || 'default'
 describe('statistics', function () {
     this.timeout(30000)
     const context = getContext()
@@ -48,15 +49,15 @@ describe('OCI metrics', function () {
         const result = await node.endorsements()
         console.info(result)
     })
-    it('endorsements: channel default', async () => {
-        const result = await node.endorsements({channel: 'default', nodeID: 'peer0'})
+    it('endorsements: channel', async () => {
+        const result = await node.endorsements({channel: channelName, nodeID: 'peer0'})
         console.info(result)
     })
     it('endorsements: time window', async () => {
         const startTime = new Date('Wed Mar 1 2021').getTime()
         const endTime = Date.now();
 
-        const result = await node.endorsements({channel: 'default', startTime, endTime})
+        const result = await node.endorsements({channel: channelName, startTime, endTime})
         console.info(result)
         assert.strictEqual(result[0].startTime, 'Mon, 01 Mar 2021 00:00:00 GMT')
 
