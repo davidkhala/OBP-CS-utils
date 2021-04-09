@@ -15,10 +15,9 @@ Oracle Blockchain Platform Cloud Service utils
 - Title `Upgrade Chaincode` -> `Step 1 of 2: Select a version` -- option `Version Source`. item `Select from existing versions`
   - it does not mean it automates to reuse existing chaincode then redeploy as a new version. Instead, it means you can specify an installed but not yet instantiated chaincode version for coming upgrade.
 ## TODO 
-- allow ./npm_bcs_client_win.bat for windows
-    - Error: Could not find any Visual Studio installation to use
-- [manage-certificates](https://docs.oracle.com/en/cloud/paas/blockchain-cloud/usingoci/manage-certificates.html#GUID-B27A3F26-3592-4F38-8AD3-37D29362854B)
-- [REST API: Gen2](https://docs.oracle.com/en/cloud/paas/blockchain-cloud/restoci/index.html)
+- Update ./npm_bcs_client_win.bat for windows
+    
+
 ## Limitation
 - handicapped channel policy management console 
 - You can only subscribe to events via a REST proxy entity within the founder instance - not to participants in the network. This is due to the REST proxies using Kafka to handle events and non-founder instances don't have Kafka running.
