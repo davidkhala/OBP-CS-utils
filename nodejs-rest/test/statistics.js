@@ -3,6 +3,7 @@ const Node = require('../statistics/node')
 const assert = require('assert')
 const {getContext} = require('./testUtil')
 const channelName = process.env.channel || 'default'
+const logger = require('khala-logger/log4js').consoleLogger('statistics')
 describe('statistics', function () {
     this.timeout(30000)
     const context = getContext()
@@ -24,30 +25,31 @@ describe('OCI metrics', function () {
     it('node resources', async () => {
         const result = await node.OCI()
         assert.strictEqual(result.length, 8)
+        logger.info(result)
     })
     it('node resources: ca', async () => {
         const result = await node.OCI({nodeID: 'ca'})
-        console.info(result)
+        logger.info(result)
     })
     it('node resources:console', async () => {
         const result = await node.OCI({nodeID: 'console'})
-        console.info(result)
+        logger.info(result)
     })
     it('node resources:restproxy', async () => {
         const result = await node.OCI({nodeID: 'restproxy'})
-        console.info(result)
+        logger.info(result)
     })
     it('node resources:orderer', async () => {
         const result = await node.OCI({nodeID: 'orderer0'})
-        console.info(result)
+        logger.info(result)
     })
     it('node resources:peer', async () => {
         const result = await node.OCI({nodeID: 'peer0'})
-        console.info(result)
+        logger.info(result)
     })
     it('endorsements', async () => {
         const result = await node.endorsements()
-        console.info(result)
+        logger.info(result)
     })
     it('endorsements: channel', async () => {
         const result = await node.endorsements({channel: channelName, nodeID: 'peer0'})
@@ -58,7 +60,7 @@ describe('OCI metrics', function () {
         const endTime = Date.now();
 
         const result = await node.endorsements({channel: channelName, startTime, endTime})
-        console.info(result)
+        logger.info(result)
         assert.strictEqual(result[0].startTime, 'Mon, 01 Mar 2021 00:00:00 GMT')
 
     })
