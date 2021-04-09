@@ -54,7 +54,7 @@ describe('join channel', function () {
     })
 })
 describe('deploy chaincode', function () {
-    this.timeout(60000)
+    this.timeout(120000)
     const chaincodeId = 'diagnose'
     const {install} = require('khala-fabric-sdk-node/chaincode')
     const {setGOPATH} = require('khala-fabric-sdk-node/golang')
