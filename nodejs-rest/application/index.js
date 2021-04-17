@@ -1,12 +1,12 @@
 const {ConnectionContext} = require('../index')
-const BasePath = 'restproxy/bcsgw/rest'
+const basePath = 'restproxy/bcsgw/rest'
 
-class Restproxy extends ConnectionContext {
+class RestProxy extends ConnectionContext {
 
     async http(token, method) {
-        const resourcePath = `${BasePath}/${token}`
+        const resourcePath = `${basePath}/${token}`
         return super.http({resourcePath, method})
     }
 }
 
-module.exports = Restproxy
+module.exports = RestProxy

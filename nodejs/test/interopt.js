@@ -1,7 +1,5 @@
 const path = require('path')
 const fs = require('fs')
-const assert = require('assert')
-const {ObjectEqual, homeResolve} = require('khala-nodeutils/helper')
 const Nodes = require('../nodes')
 const {loadFrom} = require('khala-fabric-sdk-node/user')
 const Client = require('khala-fabric-sdk-node-builder/client')
@@ -54,7 +52,7 @@ describe('join channel', function () {
     })
 })
 describe('deploy chaincode', function () {
-    this.timeout(120000)
+    this.timeout(60000)
     const chaincodeId = 'diagnose'
     const {install} = require('khala-fabric-sdk-node/chaincode')
     const {setGOPATH} = require('khala-fabric-sdk-node/golang')
@@ -65,13 +63,7 @@ describe('deploy chaincode', function () {
 
         const client_david = getAdmin_davidkhala_Client();
         await setGOPATH()
-        const results0 = await install([peers_david[0].peer], {
-            chaincodeId,
-            chaincodePath,
-            chaincodeVersion
-        }, client_david)
 
-        console.debug('install towards davidkhala.com', results0)
         const peers_founder = Nodes.FromExportedNodes(path.resolve('test/artifacts/founder-exported-nodes.json'))
 
         const client_founder = getAdmin_founder_Client()
@@ -82,6 +74,14 @@ describe('deploy chaincode', function () {
             chaincodeVersion
         }, client_founder)
         console.debug('install towards founder', results1)
+
+
+        const results0 = await install([peers_david[0].peer], {
+            chaincodeId,
+            chaincodePath,
+            chaincodeVersion
+        }, client_david)
+        console.debug('install towards davidkhala.com', results0)
 
     })
 
@@ -115,7 +115,7 @@ describe('Chaincode transaction', function () {
         const peers = peers_david.map(({peer}) => peer).concat(peers_founder.map(({peer}) => peer))
 
         const fcn = 'putPrivate'
-        const transientMap = transientMapTransform({key: "value"})
+        const transientMap = transientMapTransform({key: "value1"})
 
         const {channel} = new ChannelManager({channelName, client})
         const eventHubs = peers.map(peer => new Eventhub(channel, peer));

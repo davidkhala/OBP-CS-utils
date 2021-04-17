@@ -1,7 +1,7 @@
 const path = require('path')
 const fs = require('fs')
-const davidkhalaCertificatesJson = path.resolve(__dirname, '../../nodejs/test/artifacts/davidkhala-certificates.json')
 const {getContext} = require('../test/testUtil')
+const davidkhalaCertificatesJson = path.resolve(__dirname, '../../nodejs/test/artifacts/davidkhala-certificates.json')
 describe('upload', function () {
     this.timeout(10000)
     console.debug(davidkhalaCertificatesJson)
@@ -11,12 +11,9 @@ describe('upload', function () {
     it('certificates', async () => {
         const Upload = require('../organizations/upload')
         const upload = new Upload(context)
-        // TODO WIP
-        try {
-            await upload.certificateFiles(davidkhalaCertificatesJson)
-        }catch (e){
-            console.error(e)
-        }
+
+        await upload.certificateFiles(davidkhalaCertificatesJson)
+
 
     })
 })

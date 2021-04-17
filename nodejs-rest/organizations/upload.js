@@ -25,7 +25,7 @@ const fs = require('fs')
  */
 class Upload extends Organizations {
     /**
-     * TODO how about https://founder-4-hktwlab-iad.blockchain.ocp.oraclecloud.com:7443/console/api/v1/networks/addOrgs
+     * TODO how about https://founder-5-hktwlab-iad.blockchain.ocp.oraclecloud.com:7443/console/api/v1/networks/addOrgs
      * This API is only available on the founder.
      * @param {...OrgInfo} orgInfo
      * @return {Promise<void>}
