@@ -4,7 +4,12 @@ const Nodes = require('../nodes')
 const {loadFrom} = require('khala-fabric-sdk-node/user')
 const Client = require('khala-fabric-sdk-node-builder/client')
 
-const {getAdmin_davidkhala_Client, getAdmin_founder_Client} = require('./testUtil')
+const {
+    getAdmin_davidkhala_Client,
+    getAdmin_founder_Client,
+    getPeers_founder,
+    getPeers_davidkhala
+} = require('./testUtil')
 const ChannelManager = require('khala-fabric-sdk-node-builder/channel')
 const Orderers = require('../orderer')
 const channelName = process.env.channel || 'default'
@@ -23,8 +28,7 @@ describe('join channel', function () {
     const orderers = Orderers.FromOrdererSettings(settingsJSON)
     const {orderer} = orderers[0]
     it('', async () => {
-        const settingsJSON = path.resolve('test/artifacts/davidkhala-exported-nodes.json')
-        const peers = Nodes.FromExportedNodes(settingsJSON)
+        const peers = getPeers_davidkhala()
 
         const mspConfigPath = path.resolve('test/crypto-config/peerOrganizations/davidkhala.com/users/Admin@davidkhala.com/msp')
         const mspId = 'davidkhala-com'
@@ -40,8 +44,7 @@ describe('join channel', function () {
     })
     const {channelJoined} = require('khala-fabric-sdk-node/query')
     it('channelJoined', async () => {
-        const settingsJSON = path.resolve('test/artifacts/davidkhala-exported-nodes.json')
-        const peers = Nodes.FromExportedNodes(settingsJSON)
+        const peers = getPeers_davidkhala()
         const {peer} = peers[0]
 
 
@@ -59,12 +62,12 @@ describe('deploy chaincode', function () {
     it('install', async () => {
         const chaincodePath = 'github.com/davidkhala/chaincode/golang/diagnose'
         const chaincodeVersion = 'v1'
-        const peers_david = Nodes.FromExportedNodes(path.resolve('test/artifacts/davidkhala-exported-nodes.json'))
+        const peers_david = getPeers_davidkhala()
 
         const client_david = getAdmin_davidkhala_Client();
         await setGOPATH()
 
-        const peers_founder = Nodes.FromExportedNodes(path.resolve('test/artifacts/founder-exported-nodes.json'))
+        const peers_founder = getPeers_founder()
 
         const client_founder = getAdmin_founder_Client()
 
@@ -99,8 +102,8 @@ describe('Chaincode transaction', function () {
     it('query', async () => {
         const fcn = 'whoami'
         const client = getAdmin_davidkhala_Client();
-        const peers_david = Nodes.FromExportedNodes(path.resolve('test/artifacts/davidkhala-exported-nodes.json'))
-        const peers_founder = Nodes.FromExportedNodes(path.resolve('test/artifacts/founder-exported-nodes.json'))
+        const peers_david = getPeers_davidkhala()
+        const peers_founder = getPeers_founder()
 
         const peers = peers_david.map(({peer}) => peer).concat(peers_founder.map(({peer}) => peer))
 
@@ -110,8 +113,8 @@ describe('Chaincode transaction', function () {
     })
     it('invoke private', async () => {
         const client = getAdmin_davidkhala_Client();
-        const peers_david = Nodes.FromExportedNodes(path.resolve('test/artifacts/davidkhala-exported-nodes.json'))
-        const peers_founder = Nodes.FromExportedNodes(path.resolve('test/artifacts/founder-exported-nodes.json'))
+        const peers_david = getPeers_davidkhala()
+        const peers_founder = getPeers_founder()
         const peers = peers_david.map(({peer}) => peer).concat(peers_founder.map(({peer}) => peer))
 
         const fcn = 'putPrivate'
@@ -132,8 +135,8 @@ describe('Chaincode transaction', function () {
     })
     it('query private', async () => {
         const client = getAdmin_davidkhala_Client();
-        const peers_david = Nodes.FromExportedNodes(path.resolve('test/artifacts/davidkhala-exported-nodes.json'))
-        const peers_founder = Nodes.FromExportedNodes(path.resolve('test/artifacts/founder-exported-nodes.json'))
+        const peers_david = getPeers_davidkhala()
+        const peers_founder = getPeers_founder()
         const peers = peers_david.map(({peer}) => peer).concat(peers_founder.map(({peer}) => peer))
 
         const fcn = 'getPrivate'
@@ -155,10 +158,11 @@ describe('fetch block', function () {
     this.timeout(3000)
     process.env.binPath = path.resolve(__dirname, `bin-${process.platform}`)
     const {getChannelConfigReadable} = require('khala-fabric-sdk-node/channelConfig')
+
     it('latest config from peer', async () => {
         const client = getAdmin_davidkhala_Client();
         const {channel} = new ChannelManager({channelName, client})
-        const peers_david = Nodes.FromExportedNodes(path.resolve('test/artifacts/davidkhala-exported-nodes.json'))
+        const peers_david = getPeers_davidkhala()
         const {peer} = peers_david[0]
 
         const {configJSON} = await getChannelConfigReadable(channel, {peer})

@@ -7,9 +7,6 @@ const UserBuilder = require('khala-fabric-sdk-node-builder/user')
 const fs = require('fs')
 const path = require('path')
 const assert = require('assert')
-const {transactionProposal} = require('khala-fabric-sdk-node-builder/transaction')
-const {getPayloads} = require('khala-fabric-formatter/txProposal')
-const Nodes = require('../nodes')
 const enrollmentID = process.env.IDCS_ID
 if (!enrollmentID) {
     throw Error('process.env.IDCS_ID not found')
@@ -28,22 +25,6 @@ const getUser = () => {
         certificate: fs.readFileSync(signcert),
         mspId: 'founder'
     });
-}
-const QueryAsNormaluser = async () => {
-    const Client = require('khala-fabric-sdk-node-builder/client')
-    const user = getUser()
-    const {client} = new Client().setUser(user)
-
-    const fcn = 'whoami'
-    const chaincodeId = 'diagnose'
-
-    const peers_david = Nodes.FromExportedNodes(path.resolve('test/artifacts/davidkhala-exported-nodes.json'))
-    const peers_founder = Nodes.FromExportedNodes(path.resolve('test/artifacts/founder-exported-nodes.json'))
-
-    const peers = peers_david.map(({peer}) => peer).concat(peers_founder.map(({peer}) => peer))
-
-    const rawResult = await transactionProposal(client, peers, channelName, {chaincodeId, fcn, args: []})
-    return getPayloads(rawResult)
 }
 describe('ca', function () {
     this.timeout(30000)
@@ -72,10 +53,7 @@ describe('ca', function () {
         fs.writeFileSync(signcert, certificate)
     })
 
-    it('query as normal user', async () => {
-        const result = await QueryAsNormaluser()
-        assert.strictEqual(JSON.parse(result[0]).MspID, 'founder')
-    })
+
     it('list affiliation: Not supported', async () => {
 
         const user = getUser()

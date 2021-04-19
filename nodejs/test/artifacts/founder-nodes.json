@@ -1,0 +1,99 @@
+{
+  "peers": [
+    {
+      "peerId": "2caea892-cfcd-4f14-a42f-4bb15128bc15-peer0",
+      "role": "Member",
+      "status": "up",
+      "extInfo": [],
+      "internalListenPort": 7051,
+      "operationsListenPort": 9443,
+      "displayName": "peer0",
+      "childPeerSetupStatus": "NotSetup",
+      "isConfigured": "no",
+      "orgName": "founder",
+      "url": "grpcs://founder-5-hktwlab-iad.blockchain.ocp.oraclecloud.com:20009",
+      "eventUrl": "grpcs://founder-5-hktwlab-iad.blockchain.ocp.oraclecloud.com:0",
+      "mspId": "founder"
+    },
+    {
+      "peerId": "2caea892-cfcd-4f14-a42f-4bb15128bc15-peer1",
+      "role": "Member",
+      "status": "up",
+      "extInfo": [],
+      "internalListenPort": 7051,
+      "operationsListenPort": 9443,
+      "displayName": "peer1",
+      "childPeerSetupStatus": "NotSetup",
+      "isConfigured": "no",
+      "orgName": "founder",
+      "url": "grpcs://founder-5-hktwlab-iad.blockchain.ocp.oraclecloud.com:20010",
+      "eventUrl": "grpcs://founder-5-hktwlab-iad.blockchain.ocp.oraclecloud.com:0",
+      "mspId": "founder"
+    }
+  ],
+  "orderers": [
+    {
+      "ordererId": "2caea892-cfcd-4f14-a42f-4bb15128bc15-orderer0",
+      "status": "up",
+      "extInfo": [],
+      "queryEndpoint": "https://founder-5-hktwlab-iad.blockchain.ocp.oraclecloud.com:7443/orderer/orderer0",
+      "internalListenPort": 7050,
+      "operationsListenPort": 9443,
+      "internalRestPort": 8080,
+      "displayName": "orderer0",
+      "isConfigured": "no",
+      "url": "grpcs://founder-5-hktwlab-iad.blockchain.ocp.oraclecloud.com:20003",
+      "adminUrl": "https://founder-5-hktwlab-iad.blockchain.ocp.oraclecloud.com:7443",
+      "mspId": "founder"
+    },
+    {
+      "ordererId": "2caea892-cfcd-4f14-a42f-4bb15128bc15-orderer1",
+      "status": "up",
+      "extInfo": [],
+      "queryEndpoint": "https://founder-5-hktwlab-iad.blockchain.ocp.oraclecloud.com:7443/orderer/orderer1",
+      "internalListenPort": 7050,
+      "operationsListenPort": 9443,
+      "internalRestPort": 8080,
+      "displayName": "orderer1",
+      "isConfigured": "no",
+      "url": "grpcs://founder-5-hktwlab-iad.blockchain.ocp.oraclecloud.com:20005",
+      "adminUrl": "https://founder-5-hktwlab-iad.blockchain.ocp.oraclecloud.com:7443",
+      "mspId": "founder"
+    },
+    {
+      "ordererId": "2caea892-cfcd-4f14-a42f-4bb15128bc15-orderer2",
+      "status": "up",
+      "extInfo": [],
+      "queryEndpoint": "https://founder-5-hktwlab-iad.blockchain.ocp.oraclecloud.com:7443/orderer/orderer2",
+      "internalListenPort": 7050,
+      "operationsListenPort": 9443,
+      "internalRestPort": 8080,
+      "displayName": "orderer2",
+      "isConfigured": "no",
+      "url": "grpcs://founder-5-hktwlab-iad.blockchain.ocp.oraclecloud.com:20007",
+      "adminUrl": "https://founder-5-hktwlab-iad.blockchain.ocp.oraclecloud.com:7443",
+      "mspId": "founder"
+    }
+  ],
+  "fabricCAs": [
+    {
+      "fabricCAId": "2caea892-cfcd-4f14-a42f-4bb15128bc15-ca",
+      "status": "up",
+      "extInfo": [],
+      "displayName": "ca",
+      "isConfigured": "no",
+      "url": "https://founder-5-hktwlab-iad.blockchain.ocp.oraclecloud.com:7443",
+      "mspId": "founder"
+    }
+  ],
+  "RESTProxies": [
+    {
+      "status": "up",
+      "extInfo": [],
+      "displayName": "restproxy",
+      "RESTProxyId": "2caea892-cfcd-4f14-a42f-4bb15128bc15-restproxy",
+      "url": "https://founder-5-hktwlab-iad.blockchain.ocp.oraclecloud.com:7443/restproxy",
+      "mspId": "founder"
+    }
+  ]
+}

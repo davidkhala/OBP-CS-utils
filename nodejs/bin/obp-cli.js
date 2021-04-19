@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 const Certificates = require("../certificates")
-const Nodes = require("../nodes")
 const {execSync} = require('child_process')
 
 switch (process.argv[2]) {

@@ -1,4 +1,5 @@
 const BaseClass = require('./common')
+const PeerManager = require('khala-fabric-sdk-node-builder/peer')
 
 class ExportedNodes extends BaseClass {
     constructor(mspPath, mspID, logger) {
@@ -9,22 +10,37 @@ class ExportedNodes extends BaseClass {
         }
     }
 
+    /**
+     * @deprecated OBP API `Export Nodes (Deprecated in 20.3.1)`
+     * @param jsonFile
+     * @return {PeerManager[]}
+     */
     static FromExportedNodes(jsonFile) {
         const fs = require('fs')
-        const Peer = require('khala-fabric-sdk-node-builder/peer')
         const {tlscacert, peers} = JSON.parse(fs.readFileSync(jsonFile, 'utf-8'))
 
-        return peers.map(({address})=>{
-            const [host,peerPort] = address.split('//')[1].split(':')
-            return new Peer({host, peerPort, pem: tlscacert})
+        return peers.map(({address}) => {
+            const [host, peerPort] = address.split('//')[1].split(':')
+            return new PeerManager({host, peerPort, pem: tlscacert})
         })
 
+    }
+
+    /**
+     *
+     * @return {PeerManager[]}
+     */
+    getPeers() {
+        return this.result.peers.map(({address}) => {
+            const [host, peerPort] = address.split('//')[1].split(':')
+            return new PeerManager({host, peerPort, pem: this.result.tlscacert})
+        })
     }
 
     addPeer({host, port, displayName = `${host}:${port}`}) {
         const {mspID} = this
         this.result.peers.push({
-            nodeName:host,
+            nodeName: host,
             displayName,
             address: `grpcs://${host}:${port}`,
             type: "Peer",

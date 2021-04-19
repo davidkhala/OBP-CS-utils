@@ -5,7 +5,7 @@ const fs = require('fs')
 const path = require('path')
 const assert = require('assert')
 const {getPayloads} = require('khala-fabric-formatter/txProposal')
-const Nodes = require('../nodes')
+const {getPeers_davidkhala, getPeers_founder} = require('../test/testUtil')
 const enrollmentID = process.env.IDCS_ID
 if (!enrollmentID) {
     throw Error('process.env.IDCS_ID not found')
@@ -33,8 +33,8 @@ const QueryAsNormalUser = async () => {
     const fcn = 'whoami'
     const chaincodeId = 'diagnose'
 
-    const peers_david = Nodes.FromExportedNodes(path.resolve('test/artifacts/davidkhala-exported-nodes.json'))
-    const peers_founder = Nodes.FromExportedNodes(path.resolve('test/artifacts/founder-exported-nodes.json'))
+    const peers_david = getPeers_davidkhala()
+    const peers_founder = getPeers_founder()
 
     const peers = peers_david.map(({peer}) => peer).concat(peers_founder.map(({peer}) => peer))
 

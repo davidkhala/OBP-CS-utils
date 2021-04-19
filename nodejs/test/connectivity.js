@@ -1,29 +1,27 @@
 const path = require('path')
 
 const assert = require('assert');
-
+const {getPeers_founder, getPeers_davidkhala} = require('./testUtil')
 describe('grpc ping', function () {
     this.timeout(30000)
     const Orderers = require('../orderer')
     const Nodes = require('../nodes')
-    it('local peer', async () => {
+    it('local peer:davidkhala', async () => {
 
-        const settingsJSON = path.resolve('test/artifacts/davidkhala-exported-nodes.json')
-        const peers = Nodes.FromExportedNodes(settingsJSON)
+        const peers = getPeers_davidkhala()
         for (const peer of peers) {
             const result = await peer.ping()
             assert.ok(result)
         }
     })
-    it('OBP peer', async () => {
-        const settingsJSON = path.resolve('test/artifacts/founder-exported-nodes.json')
-        const peers = Nodes.FromExportedNodes(settingsJSON)
+    it('OBP peer:founder', async () => {
+        const peers = getPeers_founder()
         for (const peer of peers) {
             const result = await peer.ping()
             assert.ok(result)
         }
     })
-    it('orderer', async () => {
+    it('OBP orderer:founder', async () => {
 
         const settingsJSON = path.resolve('test/artifacts/founder-orderer-settings.json')
 
