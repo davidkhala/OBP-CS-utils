@@ -17,17 +17,6 @@ switch (process.argv[2]) {
                 certificates.build(process.argv[4])
 
                 break;
-            case 'peer':
-                // peers=peer0:7051;peer1:7051 <command> export peer <file.json>
-                const nodes = new Nodes(mspDir, mspID)
-                const peers = process.env.peers.split(";")
-                for (const peer of peers) {
-                    const [host, port] = peer.split(':');
-                    nodes.addPeer({host, port})
-                }
-                nodes.build(process.argv[4])
-
-                break;
             default:
                 console.error("no export type received")
         }

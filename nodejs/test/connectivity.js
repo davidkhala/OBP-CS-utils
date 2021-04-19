@@ -36,14 +36,3 @@ describe('grpc ping', function () {
 
     })
 })
-describe('http ping', function () {
-    this.timeout(5000)
-    const {ping} = require('khala-fabric-sdk-node/ca')
-    it('ca', async () => {
-        // 3 seconds timeout sometimes
-        const caUrl = 'https://founder-4-hktwlab-iad.blockchain.ocp.oraclecloud.com:7443'
-        const result = await ping(caUrl)
-        console.info(result)
-        assert.strictEqual(result.Version, '1.4.4')
-    })
-})

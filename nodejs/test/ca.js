@@ -47,9 +47,18 @@ const QueryAsNormaluser = async () => {
 }
 describe('ca', function () {
     this.timeout(30000)
-    const caUrl = 'https://founder-4-hktwlab-iad.blockchain.ocp.oraclecloud.com:7443'
+    const caUrl = 'https://founder-5-hktwlab-iad.blockchain.ocp.oraclecloud.com:7443'
     const CAName = 'founderca'
     const {caService} = new CAService(caUrl, undefined, CAName)
+
+
+    it('http ping', async () => {
+        const {ping} = require('khala-fabric-sdk-node/ca')
+        const result = await ping(caUrl)
+        console.info(result)
+        assert.strictEqual(result.Version, '1.4.4')
+
+    })
 
 
     it('enroll: required Oracle IDCS credential', async () => {
