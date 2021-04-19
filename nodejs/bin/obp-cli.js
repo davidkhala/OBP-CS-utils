@@ -10,7 +10,7 @@ switch (process.argv[2]) {
         if (!mspID) {
             console.warn("mspID not found in process.env")
         }
-        switch (process.arg[3]) {
+        switch (process.argv[3]) {
             case "certificate":
                 // <command> export certificate <file.json>
                 const certificates = new Certificates(mspDir, mspID)
