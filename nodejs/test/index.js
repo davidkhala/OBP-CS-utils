@@ -1,15 +1,14 @@
+const path = require('path')
 describe('json generator', () => {
-    const fs = require('fs')
 
-    const path = require('path')
-    it('orderer org certificates', () => {
+    it('peer org certificates', () => {
         const CertGen = require('../certificates')
-        const mspPath = path.resolve(__dirname, 'crypto-config', 'ordererOrganizations', 'hyperledger', 'msp')
-        const mspID = 'hyperledgerMSP'
+        const mspPath = path.resolve(__dirname, 'crypto-config', 'peerOrganizations', 'davidkhala.com', 'msp')
+        const mspID = 'davidkhala-com'
         const certGen = new CertGen(mspPath, mspID)
 
         console.log(certGen.result)
-        certGen.build('abc.json')
-        fs.unlinkSync('abc.json')
+        const outputPath = path.resolve(__dirname, 'artifacts/davidkhala-certificates.json')
+        certGen.build(outputPath)
     })
 })

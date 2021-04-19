@@ -52,15 +52,3 @@ describe('index', function () {
     })
 
 })
-describe('upload', function () {
-    this.timeout(30000)
-    const Upload = require('../organizations/upload')
-    const orgName = 'founder'
-    const context = getContext()
-    Object.assign(context, {orgName})
-    const upload = new Upload(context)
-    it('certificate', async () => {
-        const orgInfoFile = path.resolve(__dirname, '../../nodejs/test/artifacts/participant-certificates.json')
-        await upload.certificateFiles(orgInfoFile)
-    })
-})

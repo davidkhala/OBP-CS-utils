@@ -17,7 +17,6 @@ const logger = require('khala-logger/log4js').consoleLogger('interoperation')
 describe('join channel', function () {
     this.timeout(30000);
 
-
     const {join} = require('khala-fabric-sdk-node/channel')
     const Channel = require('khala-fabric-sdk-node-builder/channel')
 
