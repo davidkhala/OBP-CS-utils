@@ -1,11 +1,11 @@
-const {getContext} = require('./testUtil')
+const {getContext, getParticipantContext} = require('./testUtil')
 const Download = require('../organizations/download')
-const context = getContext()
-const path = require('path')
-describe('Download', function () {
-    this.timeout(30000)
-    const fs = require('fs')
 
+const path = require('path')
+const fs = require('fs')
+describe('download', function () {
+    this.timeout(30000)
+    const context = getContext()
     const orgName = 'founder'
     Object.assign(context, {orgName})
     const download = new Download(context)
@@ -15,21 +15,31 @@ describe('Download', function () {
         fs.unlinkSync(filePath)
     })
     it('certificates', async () => {
-        const filePath = 'abc.json'
+        const filePath = path.resolve(__dirname, '../../nodejs/test/artifacts/founder-certificates.json')
         await download.certificates(filePath)
-        const blob = await download.certificates()
-        console.info(blob)
-        fs.unlinkSync(filePath)
+
     })
     it('adminCredentials', async () => {
         const adminKey = path.resolve(__dirname, '../../nodejs/test/artifacts/founder-admin-credential/founder-key')
-        const adminCert =  path.resolve(__dirname, '../../nodejs/test/artifacts/founder-admin-credential/founder-cert.pem')
+        const adminCert = path.resolve(__dirname, '../../nodejs/test/artifacts/founder-admin-credential/founder-cert.pem')
 
         await download.adminCredentials({adminCert, adminKey})
     })
     it('orderer', async () => {
         const filePath = path.resolve(__dirname, '../../nodejs/test/artifacts/founder-orderer-settings.json')
         await download.orderingService(filePath)
+    })
+})
+describe('download participant', function (){
+    this.timeout(30000)
+    const context = getParticipantContext()
+    const orgName = 'participant'
+    Object.assign(context, {orgName})
+    const download = new Download(context)
+    it('certificates', async () => {
+        const filePath = path.resolve(__dirname, '../../nodejs/test/artifacts/participant-certificates.json')
+        await download.certificates(filePath)
+
     })
 })
 describe('index', function () {
@@ -41,4 +51,16 @@ describe('index', function () {
         console.info(result)
     })
 
+})
+describe('upload', function () {
+    this.timeout(30000)
+    const Upload = require('../organizations/upload')
+    const orgName = 'founder'
+    const context = getContext()
+    Object.assign(context, {orgName})
+    const upload = new Upload(context)
+    it('certificate', async () => {
+        const orgInfoFile = path.resolve(__dirname, '../../nodejs/test/artifacts/participant-certificates.json')
+        await upload.certificateFiles(orgInfoFile)
+    })
 })

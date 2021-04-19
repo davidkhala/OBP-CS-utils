@@ -27,7 +27,6 @@ class Download extends Organizations {
 
     /**
      * returns the orderer service settings for a founder organization, including the MSP ID, certificates, and ordering service node addresses. This API is only available on the founder.
-     * FIXME WIP this is not exactly same with console download!
      * @param {string} [filePath]
      * @returns {Promise<string|undefined>}
      */

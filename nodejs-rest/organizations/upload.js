@@ -1,9 +1,8 @@
 const Organizations = require('./index')
-const {ReturnCode: {SUCCESS}} = require('../constants')
 const assert = require('assert')
 const fs = require('fs')
 /**
- * @typedef {Object} OrgInfo
+ * @typedef {Object} OrgInfo FIXME: which is accepted API format
  * @property {string} mspId
  * @property {Certs} certs
  * @property {string} signature
@@ -25,16 +24,28 @@ const fs = require('fs')
  */
 class Upload extends Organizations {
     /**
-     * TODO how about https://founder-5-hktwlab-iad.blockchain.ocp.oraclecloud.com:7443/console/api/v1/networks/addOrgs
-     * This API is only available on the founder.
+     * use as founder orgName in Url and use participant json in post body.
      * @param {...OrgInfo} orgInfo
      * @return {Promise<void>}
      */
     async certificates(...orgInfo) {
 
-        const {status} = await super.http('joinNewOrgs', {method: 'POST', body: {orgInfo}})
+        let status;
+        try {
+            const result = await super.http('joinNewOrgs', {method: 'POST', body: orgInfo})
+            status = result.status
+        } catch (e) {
+            if (e.statusCode === 409 && e.statusMessage === 'Conflict') {
+                const {response: {data: {respMesg}}} = e
+                this.logger.warn(respMesg)
+                return respMesg
+            } else {
+                throw e
+            }
 
-        assert.strictEqual(status, SUCCESS)
+        }
+
+        assert.strictEqual(status, 'SUCCESS') // FIXME: should be `Success`
     }
 
     /**
@@ -43,33 +54,13 @@ class Upload extends Organizations {
      * @return {Promise<void>}
      */
     async certificateFiles(...orgInfoFile) {
-        const orgInfos = orgInfoFile.map(Upload.OrgInfoFromFile)
+        const OrgInfoFromFile = (certificatesJson) => {
+            return JSON.parse(fs.readFileSync(certificatesJson, 'utf-8'))
+        }
+        const orgInfos = orgInfoFile.map(OrgInfoFromFile)
         await this.certificates(...orgInfos)
     }
 
-    static OrgInfoFromFile(certificatesJson) {
-        const {mspID, certs, signature} = JSON.parse(fs.readFileSync(certificatesJson, 'utf-8'))
-
-        const {
-            nodeouidentifiercert,
-            rafttlscacert,
-            admincert,
-            cacert,
-            tlscacert
-        } = certs
-        return {
-            mspId: mspID,
-            certs: {
-                adminCert: admincert,
-                CACert: cacert,
-                tlsCACert: tlscacert,
-                nodeouIdentifierCert: nodeouidentifiercert || '',
-                rafttlsCACert: rafttlscacert || '',
-                intermediateCerts: '', //FIXME not found in exported json
-            },
-            signature: signature || ''
-        }
-    }
 }
 
 module.exports = Upload

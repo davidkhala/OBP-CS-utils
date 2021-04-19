@@ -1,4 +1,3 @@
-const fs = require('fs');
 const BaseClass = require('./common')
 
 /**
@@ -19,7 +18,7 @@ class Certificates extends BaseClass {
         this.result.certs['tlscacert'] = this.searchCert('tlscacert')
 
     }
-    
+
 }
 
 
