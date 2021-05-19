@@ -5,7 +5,6 @@ const {getPeers_founder, getPeers_davidkhala} = require('./testUtil')
 describe('grpc ping', function () {
     this.timeout(30000)
     const Orderers = require('../orderer')
-    const Nodes = require('../nodes')
     it('local peer:davidkhala', async () => {
 
         const peers = getPeers_davidkhala()

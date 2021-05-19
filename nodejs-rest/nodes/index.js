@@ -1,9 +1,6 @@
 const {ConnectionContext} = require('../index')
 const basePath = 'console/admin/api/v1.1/nodes'
 
-/**
- * `Export/Import peers` is deprecated
- */
 class Nodes extends ConnectionContext {
     async http(token, method) {
         const resourcePath = `${basePath}/${token}`

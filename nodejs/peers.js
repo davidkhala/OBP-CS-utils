@@ -1,7 +1,8 @@
 const BaseClass = require('./common')
 const PeerManager = require('khala-fabric-sdk-node-builder/peer')
 
-class ExportedNodes extends BaseClass {
+class PeerNodes extends BaseClass {
+
     constructor(mspPath, mspID, logger) {
         super(mspPath, mspID, logger)
         this.result = {
@@ -49,4 +50,4 @@ class ExportedNodes extends BaseClass {
     }
 }
 
-module.exports = ExportedNodes
+module.exports = PeerNodes

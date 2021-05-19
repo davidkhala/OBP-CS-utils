@@ -1,6 +1,6 @@
 const path = require('path')
 const fs = require('fs')
-const Nodes = require('../nodes')
+const Nodes = require('../peers')
 const {loadFrom} = require('khala-fabric-sdk-node/user')
 const Client = require('khala-fabric-sdk-node-builder/client')
 
@@ -98,8 +98,7 @@ describe('Chaincode transaction', function () {
 
     const {FromOrdererSettings} = require('../orderer')
     const chaincodeId = 'diagnose'
-    it('query', async () => {
-        const fcn = 'whoami'
+    const query = async (fcn) => {
         const client = getAdmin_davidkhala_Client();
         const peers_david = getPeers_davidkhala()
         const peers_founder = getPeers_founder()
@@ -109,6 +108,15 @@ describe('Chaincode transaction', function () {
         const rawResult = await transactionProposal(client, peers, channelName, {chaincodeId, fcn, args: []})
         const result = getPayloads(rawResult)
         console.info(result)
+        return result
+    }
+    it('query:whoami', async () => {
+        const fcn = 'whoami'
+        await query(fcn)
+    })
+    it('query: external', async () => {
+        const fcn = 'external'
+        await query(fcn)
     })
     it('invoke private', async () => {
         const client = getAdmin_davidkhala_Client();

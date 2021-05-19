@@ -1,14 +1,9 @@
 const {ConnectionContext} = require('../index')
-
+const basePath = `console/admin/api/v1.1/organizations`
 class Organizations extends ConnectionContext {
-    constructor({username, password, route, orgName}, logger) {
-        super({username, password, route}, logger);
-        this.basePath = `console/admin/api/v1.1/organizations/${orgName}`
-        this.orgName = orgName
-    }
 
     async http(token, {body, method, params}, otherOptions = {}) {
-        return super.http({resourcePath: `${this.basePath}/${token}`, body, method, params}, otherOptions);
+        return super.http({resourcePath: `${basePath}/${token}`, body, method, params}, otherOptions);
     }
 
     /**
@@ -16,7 +11,7 @@ class Organizations extends ConnectionContext {
      * @returns {Promise<void>}
      */
     async list() {
-        return super.http({resourcePath: 'console/admin/api/v1.1/organizations', method: 'GET'})
+        return super.http({resourcePath: basePath, method: 'GET'})
     }
 
 }

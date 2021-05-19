@@ -3,12 +3,12 @@ const Download = require('../organizations/download')
 
 const path = require('path')
 const fs = require('fs')
-describe('download', function () {
+describe('download founder', function () {
     this.timeout(30000)
     const context = getContext()
     const orgName = 'founder'
-    Object.assign(context, {orgName})
-    const download = new Download(context)
+
+    const download = new Download(context, orgName)
     it('connection profile', async () => {
         const filePath = 'abc.yaml'
         await download.connectionProfile(filePath)
@@ -34,17 +34,21 @@ describe('download participant', function (){
     this.timeout(30000)
     const context = getParticipantContext()
     const orgName = 'participant'
-    Object.assign(context, {orgName})
-    const download = new Download(context)
+    const download = new Download(context, orgName)
     it('certificates', async () => {
         const filePath = path.resolve(__dirname, '../../nodejs/test/artifacts/participant-certificates.json')
         await download.certificates(filePath)
-
+    })
+    it('connection profile', async () => {
+        const filePath = 'abc.yaml'
+        await download.connectionProfile(filePath)
+        fs.unlinkSync(filePath)
     })
 })
 describe('index', function () {
     this.timeout(30000)
     const Organizations = require('../organizations/index')
+    const context = getContext()
     it('list', async () => {
         const organizations = new Organizations(context)
         const result = await organizations.list()

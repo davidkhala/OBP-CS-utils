@@ -3,7 +3,7 @@ const path = require('path')
 const fs = require('fs')
 const {loadFrom} = require('khala-fabric-sdk-node/user')
 const Client = require('khala-fabric-sdk-node-builder/client')
-const ExportedPeers = require('../nodes')
+const ExportedPeers = require('../peers')
 const getAdmin_davidkhala_Client = () => {
     const mspConfigPath = path.resolve('test/crypto-config/peerOrganizations/davidkhala.com/users/Admin@davidkhala.com/msp')
     const mspId = 'davidkhala-com'
@@ -40,12 +40,12 @@ const getPeers_davidkhala = () => {
 }
 const getPeers_founder = () => {
     const PeerManager = require('khala-fabric-sdk-node-builder/peer')
-    const {certs: {tlscacert}} = require('../../nodejs/test/artifacts/founder-certificates.json')
+    const {certs: {tlsCACert}} = require('../../nodejs/test/artifacts/founder-certificates.json')
     const {peers: _peers} = require('../../nodejs/test/artifacts/founder-nodes.json')
 
     return _peers.map(({url}) => {
         const [host, peerPort] = url.split('//')[1].split(':')
-        return new PeerManager({host, peerPort, pem: tlscacert})
+        return new PeerManager({host, peerPort, pem: tlsCACert})
     })
 
 }

@@ -1,4 +1,4 @@
-describe('manual chaincode', ()=>{
+describe('chaincode', () => {
     it('instantiate on OBP', () => {
         const CollectionName = 'private'
         const Policy = `OR('founder.member', 'davidkhala-com.member')`

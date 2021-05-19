@@ -23,16 +23,20 @@ const fs = require('fs')
  *
  */
 class Upload extends Organizations {
+    constructor(context, orgName, logger) {
+        super(context, logger);
+        Object.assign(this, {orgName})
+    }
     /**
      * use as founder orgName in Url and use participant json in post body.
-     * @param {...OrgInfo} orgInfo
-     * @return {Promise<void>}
+     * @param {OrgInfo} orgInfo
+     * @return {Promise<void|string>}
      */
-    async certificates(...orgInfo) {
+    async certificates(orgInfo) {
 
         let status;
         try {
-            const result = await super.http('joinNewOrgs', {method: 'POST', body: orgInfo})
+            const result = await super.http(`${this.orgName}/joinNewOrgs`, {method: 'POST', body: [orgInfo]})
             status = result.status
         } catch (e) {
             if (e.statusCode === 409 && e.statusMessage === 'Conflict') {
@@ -50,15 +54,13 @@ class Upload extends Organizations {
 
     /**
      *
-     * @param {...string} orgInfoFile
+     * @param {string} orgInfoFile
      * @return {Promise<void>}
      */
-    async certificateFiles(...orgInfoFile) {
-        const OrgInfoFromFile = (certificatesJson) => {
-            return JSON.parse(fs.readFileSync(certificatesJson, 'utf-8'))
-        }
-        const orgInfos = orgInfoFile.map(OrgInfoFromFile)
-        await this.certificates(...orgInfos)
+    async certificateFile(orgInfoFile) {
+
+        const orgInfo = JSON.parse(fs.readFileSync(orgInfoFile, 'utf-8'))
+        await this.certificates(orgInfo)
     }
 
 }

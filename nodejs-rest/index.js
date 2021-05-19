@@ -48,8 +48,16 @@ class Route {
     }
 }
 
-
+/**
+ * @enum {string}
+ */
+const ChaincodeSamples = {
+    balanceTransfer:'obcs-example02',
+    carDealer:'obcs-cardealer',
+    marbles:'obcs-marbles',
+}
 module.exports = {
     ConnectionContext,
     Route,
+    ChaincodeSamples,
 }

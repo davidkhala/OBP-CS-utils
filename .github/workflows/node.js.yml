@@ -1,11 +1,6 @@
-# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
-
 name: Node.js CI
 
-on:
-  push:
-    branches: [ main ]
+on: [ push, workflow_dispatch ]
 
 jobs:
   unix:
@@ -13,10 +8,11 @@ jobs:
     env:
       IDCS_ID: ${{ secrets.IDCS_ID }}
       IDCS_PASSWORD: ${{ secrets.IDCS_PASSWORD }}
+      GO111MODULE: on
     strategy:
       matrix:
         node-version: [ 10.x, 14.x ]
-        os: [ubuntu-latest, macos-latest]
+        os: [ ubuntu-latest, macos-latest ]
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
@@ -30,7 +26,7 @@ jobs:
       - name: go get chaincode
         run: curl https://raw.githubusercontent.com/davidkhala/go-utils/master/scripts/goCmd.sh | bash -s get github.com/davidkhala/chaincode release-1.4
       - name: diagnose ensure (vendor)
-        run: cd $(go env GOPATH)/src/github.com/davidkhala/chaincode/golang/diagnose; export GO111MODULE=on; go mod vendor
+        run: cd $(go env GOPATH)/src/github.com/davidkhala/chaincode/golang/diagnose; go mod vendor
       - run: cd nodejs; npm run build
         timeout-minutes: 30
       - run: cd nodejs; npm test
@@ -42,6 +38,7 @@ jobs:
     env:
       IDCS_ID: ${{ secrets.IDCS_ID }}
       IDCS_PASSWORD: ${{ secrets.IDCS_PASSWORD }}
+      GO111MODULE: on
     strategy:
       matrix:
         node-version: [ 10.x ]
@@ -62,7 +59,7 @@ jobs:
           (Invoke-WebRequest "https://raw.githubusercontent.com/davidkhala/windows-utils/master/golang/goCmd.ps1").Content | Invoke-Expression
           Get-GO-Repos github.com/davidkhala/chaincode
       - name: diagnose ensure (vendor)
-        run: cd $(go env GOPATH)/src/github.com/davidkhala/chaincode/golang/diagnose; export GO111MODULE=on; go mod vendor
+        run: cd $(go env GOPATH)/src/github.com/davidkhala/chaincode/golang/diagnose; go mod vendor
       - run: cd nodejs; npm run ping
       - run: cd nodejs; npm test
         timeout-minutes: 10
