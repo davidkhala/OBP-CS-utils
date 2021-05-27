@@ -1,7 +1,12 @@
 const path = require('path')
 
 const assert = require('assert');
-const {getPeers_founder, getPeers_davidkhala} = require('./testUtil')
+const {
+    getPeers_founder,
+    getPeers_davidkhala,
+    getAdmin_founder_Client,
+    getAdmin_davidkhala_Client
+} = require('./testUtil')
 describe('grpc ping', function () {
     this.timeout(30000)
     const Orderers = require('../orderer')
@@ -31,5 +36,17 @@ describe('grpc ping', function () {
             assert.ok(result)
         }
 
+    })
+})
+describe('query OBP peer:founder', () => {
+
+    const {chaincodesInstalled} = require('khala-fabric-sdk-node/query')
+    it('chaincode installed', async () => {
+        const peers_founder = getPeers_founder()
+        const {peer} = peers_founder[0]
+
+        const client_founder = getAdmin_founder_Client()
+        const result = await chaincodesInstalled(peer, client_founder)
+        console.log(result.pretty)
     })
 })

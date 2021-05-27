@@ -1,6 +1,5 @@
 const path = require('path')
 const fs = require('fs')
-const Nodes = require('../peers')
 const {loadFrom} = require('khala-fabric-sdk-node/user')
 const Client = require('khala-fabric-sdk-node-builder/client')
 
@@ -53,42 +52,7 @@ describe('join channel', function () {
         logger.info(result)
     })
 })
-describe('deploy chaincode', function () {
-    this.timeout(60000)
-    const chaincodeId = 'diagnose'
-    const {install} = require('khala-fabric-sdk-node/chaincode')
-    const {setGOPATH} = require('khala-fabric-sdk-node/golang')
-    it('install', async () => {
-        const chaincodePath = 'github.com/davidkhala/chaincode/golang/diagnose'
-        const chaincodeVersion = 'v1'
-        const peers_david = getPeers_davidkhala()
 
-        const client_david = getAdmin_davidkhala_Client();
-        await setGOPATH()
-
-        const peers_founder = getPeers_founder()
-
-        const client_founder = getAdmin_founder_Client()
-
-        const results1 = await install(peers_founder.map(({peer}) => peer), {
-            chaincodeId,
-            chaincodePath,
-            chaincodeVersion
-        }, client_founder)
-        console.debug('install towards founder', results1)
-
-
-        const results0 = await install([peers_david[0].peer], {
-            chaincodeId,
-            chaincodePath,
-            chaincodeVersion
-        }, client_david)
-        console.debug('install towards davidkhala.com', results0)
-
-    })
-
-
-})
 describe('Chaincode transaction', function () {
     this.timeout(30000)
     const {transactionProposal} = require('khala-fabric-sdk-node-builder/transaction')
