@@ -3,11 +3,11 @@ const PeerManager = require('khala-fabric-sdk-node-builder/peer')
 
 class PeerNodes extends BaseClass {
 
-    constructor(mspPath, mspID, logger) {
+    constructor({mspPath, tlscacert}, mspID, logger) {
         super(mspPath, mspID, logger)
         this.result = {
             peers: [],
-            tlscacert: this.searchCert('tlscacert'),
+            tlscacert: tlscacert || this.searchCert('tlscacert'),
         }
     }
 

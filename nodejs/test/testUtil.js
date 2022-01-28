@@ -1,14 +1,22 @@
 const UserBuilder = require('khala-fabric-sdk-node-builder/user')
 const path = require('path')
 const fs = require('fs')
-const {loadFrom} = require('khala-fabric-sdk-node/user')
 const Client = require('khala-fabric-sdk-node-builder/client')
+const {findKeyFiles} = require('khala-fabric-formatter/path')
 const ExportedPeers = require('../peers')
 const getAdmin_davidkhala_Client = () => {
-    const mspConfigPath = path.resolve('test/crypto-config/peerOrganizations/davidkhala.com/users/Admin@davidkhala.com/msp')
+
     const mspId = 'davidkhala-com'
     const client = new Client()
-    const user = loadFrom(mspConfigPath, 'Admin', mspId)
+    const builder = new UserBuilder({name: 'Admin'});
+    const keystore = findKeyFiles(path.resolve('test/crypto-config/peerOrganizations/davidkhala.com/users/Admin@davidkhala.com/msp/keystore'))[0];
+    const {certs: {admincert}} = require('../../nodejs/test/artifacts/davidkhala-certificates.json')
+
+    const user = builder.build({
+        key: fs.readFileSync(keystore),
+        certificate: admincert,
+        mspId
+    })
     client.setUser(user)
     return client.client
 }
@@ -29,9 +37,10 @@ const getAdmin_founder_Client = () => {
 }
 const getPeers_davidkhala = () => {
 
-    const mspPath = path.resolve(__dirname, 'crypto-config', 'peerOrganizations', 'davidkhala.com', 'msp')
+    const {certs: {tlscacert}} = require('../../nodejs/test/artifacts/davidkhala-certificates.json')
+
     const mspID = 'davidkhala-com'
-    const exportedPeers = new ExportedPeers(mspPath, mspID)
+    const exportedPeers = new ExportedPeers({tlscacert}, mspID)
     exportedPeers.addPeer({
         host: 'peer0.davidkhala.com',
         port: 7779,

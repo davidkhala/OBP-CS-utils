@@ -4,7 +4,7 @@ const {
     getPeers_founder,
     getPeers_davidkhala
 } = require('../test/testUtil')
-
+const assert = require('assert')
 describe('deploy chaincode', () => {
 
     const chaincodeId = 'diagnose'
@@ -14,12 +14,14 @@ describe('deploy chaincode', () => {
 
         const chaincodePath = 'github.com/davidkhala/chaincode/golang/diagnose'
         const chaincodeVersion = 'v1'
-        const peers_david = getPeers_davidkhala()
-        this.timeout(60000 * peers_david.length)
+        const peerManager = getPeers_davidkhala()[0]
+        assert.ok(await peerManager.ping())
+
+        this.timeout(60000)
         const client_david = getAdmin_davidkhala_Client();
         await setGOPATH()
 
-        const results0 = await install([peers_david[0].peer], {
+        const results0 = await install([peerManager.peer], {
             chaincodeId,
             chaincodePath,
             chaincodeVersion

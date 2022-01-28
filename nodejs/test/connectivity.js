@@ -5,7 +5,6 @@ const {
     getPeers_founder,
     getPeers_davidkhala,
     getAdmin_founder_Client,
-    getAdmin_davidkhala_Client
 } = require('./testUtil')
 describe('grpc ping', function () {
     this.timeout(30000)
