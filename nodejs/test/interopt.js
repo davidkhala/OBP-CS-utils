@@ -1,17 +1,18 @@
-const path = require('path')
-const fs = require('fs')
-const {loadFrom} = require('khala-fabric-sdk-node/user')
-const Client = require('khala-fabric-sdk-node-builder/client')
+import path from 'path'
+import fs from 'fs'
+import {loadFrom} from 'khala-fabric-sdk-node/user'
+import Client from 'khala-fabric-sdk-node-builder/client'
 
-const {
+import {
     getAdmin_davidkhala_Client,
     getAdmin_founder_Client,
     getPeers_founder,
     getPeers_davidkhala
-} = require('./testUtil')
-const ChannelManager = require('khala-fabric-sdk-node-builder/channel')
-const Orderers = require('../orderer')
+} from './testUtil.js'
+import ChannelManager from 'khala-fabric-sdk-node-builder/channel'
+import Orderers from '../orderer'
 const channelName = process.env.channel || 'default'
+
 const logger = require('khala-logger/log4js').consoleLogger('interoperation')
 describe('join channel', function () {
     this.timeout(30000);

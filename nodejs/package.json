@@ -21,6 +21,7 @@
   },
   "devDependencies": {
     "mocha": "latest",
-    "khala-axios": "latest"
+    "khala-axios": "latest",
+    "@davidkhala/logger": "latest"
   }
 }
