@@ -1,15 +1,16 @@
-const {
+import {
     getAdmin_davidkhala_Client,
     getAdmin_founder_Client,
     getPeers_founder,
     getPeers_davidkhala
-} = require('../test/testUtil')
-const assert = require('assert')
+} from '../test/testUtil.js'
+import assert from 'assert'
+import {install} from 'khala-fabric-sdk-node/chaincode'
+import {setGOPATH} from 'khala-fabric-sdk-node/golang'
 describe('deploy chaincode', () => {
 
     const chaincodeId = 'diagnose'
-    const {install} = require('khala-fabric-sdk-node/chaincode')
-    const {setGOPATH} = require('khala-fabric-sdk-node/golang')
+
     it('install to davidkhala.com', async function () {
 
         const chaincodePath = 'github.com/davidkhala/chaincode/golang/diagnose'

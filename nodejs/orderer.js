@@ -1,4 +1,4 @@
-const fs = require('fs')
+import fs from 'fs'
 
 const OrdererManager = require('khala-fabric-sdk-node-builder/orderer')
 

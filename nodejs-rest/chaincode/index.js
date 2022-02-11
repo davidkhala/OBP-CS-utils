@@ -1,31 +1,54 @@
-const {ConnectionContext} = require('../index')
+import {ConnectionContext} from '../index.js'
+import path from "path";
+import fs from "fs";
 
-const basePath = 'console/admin/api/v1.1/chaincodes'
+const basePath = 'console/admin/api/v2/chaincodes'
 
-class Chaincode extends ConnectionContext {
+export default class Chaincode extends ConnectionContext {
 
-    constructor({username, password, route, chaincodeName}, logger) {
-        super({username, password, route}, logger);
-        Object.assign(this, {chaincodeName})
-    }
+	constructor({username, password, route}, logger) {
+		super({username, password, route}, logger);
+	}
 
-    async http(token, method, body) {
-        const resourcePath = `${basePath}/${this.chaincodeName}/${token}`
-        return super.http({resourcePath, method, body})
-    }
+	/**
+	 * Get Installed Chaincode List
+	 */
+	async list() {
+		const rawResult = await super.http({resourcePath: basePath, method: 'GET'})
+		const result = {}
+		for (const {peerId, chaincodes} of rawResult) {
+			result[peerId] = chaincodes
+		}
 
-    /**
-     * Get Installed Chaincode List
-     */
-    async list() {
-        const rawResult = await super.http({resourcePath: basePath, method: 'GET'})
-        const result = {}
-        for (const {name, versions, paths} of rawResult) {
-            result[name] = {versions, paths}
-        }
+		return result
+	}
 
-        return result
-    }
+	async get(packageID) {
+
+		const resourcePath = `${basePath}/${packageID}`
+		return super.http({resourcePath, method: 'GET'})
+	}
+
+	async install(archiveFile, peers, {label, type = "golang"} = {}) {
+		// BASE64 encoded zip file.
+		const fileName = path.basename(archiveFile)
+
+		const content = fs.readFileSync(archiveFile).toString('base64')
+		const body = {
+			source: {
+				fileName,
+				content,
+			},
+
+			peers: peers.map(peer => ({url: peer}))
+		}
+		if (label) {
+			Object.assign(body, {label, type})
+		} else {
+			body.source.isPackaged = true
+		}
+		return super.http({resourcePath: basePath, method: 'POST', body})
+
+	}
+
 }
-
-module.exports = Chaincode

@@ -1,4 +1,4 @@
-const Chaincode = require('./index')
+import Chaincode from './index'
 
 /**
  * @typedef {Object} UpgradeChaincodeHTTPBody

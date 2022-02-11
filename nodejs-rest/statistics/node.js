@@ -1,4 +1,4 @@
-const Statistics = require('./index')
+import Statistics from './index.js'
 
 /**
  * @typedef {Object} _nodeBaseInfo
