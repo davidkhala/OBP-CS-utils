@@ -26,7 +26,7 @@ const getUser = () => {
     });
 }
 describe('ca', function () {
-    this.timeout(30000)
+    this.timeout(0)
     const caUrl = 'https://founder-5-hktwlab-iad.blockchain.ocp.oraclecloud.com:7443'
     const CAName = 'founderca'
     const {caService} = new CAService(caUrl, undefined, CAName)

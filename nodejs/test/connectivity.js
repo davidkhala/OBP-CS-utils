@@ -7,7 +7,7 @@ const {
     getAdmin_founder_Client,
 } = require('./testUtil')
 describe('grpc ping', function () {
-    this.timeout(30000)
+    this.timeout(0)
     const Orderers = require('../orderer')
     it('local peer:davidkhala', async () => {
 

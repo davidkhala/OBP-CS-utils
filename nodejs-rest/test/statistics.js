@@ -5,7 +5,7 @@ const {getContext} = require('./testUtil')
 const channelName = process.env.channel || 'default'
 const logger = require('khala-logger/log4js').consoleLogger('statistics')
 describe('statistics', function () {
-    this.timeout(30000)
+    this.timeout(0)
     const context = getContext()
     it('channelInfo', async () => {
         const channelStats = new Channel(context)
@@ -19,7 +19,7 @@ describe('statistics', function () {
 
 })
 describe('OCI metrics', function () {
-    this.timeout(30000)
+    this.timeout(0)
     const context = getContext()
     const node = new Node(context)
     it('node resources', async () => {
@@ -67,7 +67,7 @@ describe('OCI metrics', function () {
 
 })
 describe("OCI metrics: commits", function () {
-    this.timeout(30000)
+    this.timeout(0)
     const context = getContext()
     const node = new Node(context)
     it('commit towards peers', async () => {

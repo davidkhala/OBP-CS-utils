@@ -3,7 +3,7 @@ import {getContext} from './testUtil.js'
 import path from 'path';
 
 describe('chaincode', function () {
-	this.timeout(20000)
+	this.timeout(0)
 
 	it('list', async () => {
 		const context = getContext()

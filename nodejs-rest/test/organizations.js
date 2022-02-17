@@ -4,7 +4,7 @@ const Download = require('../organizations/download')
 const path = require('path')
 const fs = require('fs')
 describe('download founder', function () {
-    this.timeout(30000)
+    this.timeout(0)
     const context = getContext()
     const orgName = 'founder'
 
@@ -31,7 +31,7 @@ describe('download founder', function () {
     })
 })
 describe('download participant', function (){
-    this.timeout(30000)
+    this.timeout(0)
     const context = getParticipantContext()
     const orgName = 'participant'
     const download = new Download(context, orgName)
@@ -46,7 +46,7 @@ describe('download participant', function (){
     })
 })
 describe('index', function () {
-    this.timeout(30000)
+    this.timeout(0)
     const Organizations = require('../organizations/index')
     const context = getContext()
     it('list', async () => {

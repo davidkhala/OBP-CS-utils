@@ -1,10 +1,10 @@
-const path = require('path')
-const fs = require('fs')
-const {getContext} = require('../test/testUtil')
+import path from 'path'
+import fs from 'fs'
+import {getContext} from '../test/testUtil.js'
 
-const Upload = require('../organizations/upload')
+import Upload from '../organizations/upload.js'
 describe('upload', function () {
-    this.timeout(10000)
+    this.timeout(0)
 
     const context = getContext()
 

@@ -4,7 +4,7 @@ const Peers = require('../nodes/peers')
 const path = require('path')
 const fs = require('fs')
 describe('nodes', function () {
-    this.timeout(3000)
+    this.timeout(0)
     const context = getContext()
     const nodes = new Nodes(context)
     it('list', async () => {
@@ -17,7 +17,7 @@ describe('nodes', function () {
     })
     const peers = new Peers(context)
     it('peers', async function () {
-        this.timeout(60000)
+        this.timeout(0)
         const peerId = 'peer0'
         const channelName = 'default'
         const result = await peers.blockAudit(peerId, channelName)

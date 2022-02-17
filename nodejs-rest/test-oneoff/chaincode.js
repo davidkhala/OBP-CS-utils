@@ -3,7 +3,7 @@ const Init = require('../chaincode/init')
 const assert = require('assert')
 const channelName = process.env.channel || 'default'
 describe('chaincode operation', function () {
-    this.timeout(20000)
+    this.timeout(0)
     const chaincodeName = 'diagnose'
 
     it('init', async () => {
@@ -25,7 +25,7 @@ describe('transaction on samples', () => {
     const host = 'founder-5-hktwlab-iad.blockchain.ocp.oraclecloud.com'
     const peerPort = '20009'
     it('query a', async function () {
-        this.timeout(60000)
+        this.timeout(0)
 
         const chaincodeName = ChaincodeSamples.balanceTransfer
 

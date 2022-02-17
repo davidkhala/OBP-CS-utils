@@ -1,4 +1,4 @@
-const Nodes = require('./index')
+import Nodes from './index.js'
 
 const VerifyResult= {
     success:'success',

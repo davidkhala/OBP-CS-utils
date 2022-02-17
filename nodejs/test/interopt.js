@@ -14,12 +14,10 @@ import Orderers from '../orderer'
 const channelName = process.env.channel || 'default'
 
 const logger = require('khala-logger/log4js').consoleLogger('interoperation')
+import {join} from 'khala-fabric-sdk-node/channel'
+import Channel from 'khala-fabric-sdk-node-builder/channel'
 describe('join channel', function () {
-    this.timeout(30000);
-
-    const {join} = require('khala-fabric-sdk-node/channel')
-    const Channel = require('khala-fabric-sdk-node-builder/channel')
-
+    this.timeout(0);
 
     const settingsJSON = path.resolve('test/artifacts/founder-orderer-settings.json')
 
@@ -55,7 +53,7 @@ describe('join channel', function () {
 })
 
 describe('Chaincode transaction', function () {
-    this.timeout(30000)
+    this.timeout(0)
     const {transactionProposal} = require('khala-fabric-sdk-node-builder/transaction')
     const {getPayloads, transientMapTransform} = require('khala-fabric-formatter/txProposal')
     const {invoke} = require('khala-fabric-sdk-node/chaincodeHelper')
@@ -127,7 +125,7 @@ describe('Chaincode transaction', function () {
 
 })
 describe('fetch block', function () {
-    this.timeout(3000)
+    this.timeout(0)
     process.env.binPath = path.resolve(__dirname, `bin-${process.platform}`)
     const {getChannelConfigReadable} = require('khala-fabric-sdk-node/channelConfig')
 
