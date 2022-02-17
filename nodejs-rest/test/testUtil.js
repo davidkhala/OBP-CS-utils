@@ -5,7 +5,7 @@ export const getContext = () => {
 	const username = process.env.IDCS_ID
 	const password = process.env.IDCS_PASSWORD
 
-	const route = FromDomain('founder2-hktwlab-icn.blockchain.ocp.oraclecloud.com')
+	const route = FromDomain('founder-hktwlab-sin.blockchain.ocp.oraclecloud.com')
 	return new ConnectionContext({username, password, route})
 }
 export const getParticipantContext = () => {

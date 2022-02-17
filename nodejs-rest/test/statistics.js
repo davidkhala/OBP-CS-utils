@@ -3,7 +3,7 @@ const Node = require('../statistics/node')
 const assert = require('assert')
 const {getContext} = require('./testUtil')
 const channelName = process.env.channel || 'default'
-const logger = require('khala-logger/log4js').consoleLogger('statistics')
+const logger = require('@davidkhala/logger/log4.js').consoleLogger('statistics')
 describe('statistics', function () {
     this.timeout(0)
     const context = getContext()

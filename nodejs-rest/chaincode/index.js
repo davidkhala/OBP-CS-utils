@@ -12,9 +12,11 @@ export default class Chaincode extends ConnectionContext {
 
 	/**
 	 * Get Installed Chaincode List
+	 * @param {string} [peerId] ID of the peer where the chaincode is installed
 	 */
-	async list() {
-		const rawResult = await super.http({resourcePath: basePath, method: 'GET'})
+	async list(peerId) {
+		const params = {peerId}
+		const rawResult = await super.http({resourcePath: basePath, method: 'GET', params})
 		const result = {}
 		for (const {peerId, chaincodes} of rawResult) {
 			result[peerId] = chaincodes

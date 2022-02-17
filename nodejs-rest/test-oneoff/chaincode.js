@@ -1,19 +1,11 @@
 const {getContext} = require('../test/testUtil')
-const Init = require('../chaincode/init')
 const assert = require('assert')
 const channelName = process.env.channel || 'default'
 describe('chaincode operation', function () {
     this.timeout(0)
     const chaincodeName = 'diagnose'
 
-    it('init', async () => {
-        const context = getContext()
-        Object.assign(context, {chaincodeName})
-        const chaincode = new Init(context)
-        const chaincodeVersion = 'v1'
-        const peers = []
-        await chaincode.upgrade({channelName, chaincodeVersion, peers})
-    })
+
 })
 const Tx = require('../application/transactions')
 const {ChaincodeSamples} = require('../index')

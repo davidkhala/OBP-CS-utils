@@ -10,13 +10,16 @@ describe('chaincode', function () {
 		const chaincode = new Chaincode(context)
 		const result = await chaincode.list()
 		console.log(result)
+		const peerID = 'b7523ef1-352c-4911-9a76-3c8e41be1561-peer0'
+		const queryResult = await chaincode.list(peerID)
+		console.log(queryResult)
 	})
 	it('install', async () => {
 		const context = getContext()
 		const chaincode = new Chaincode(context)
 		const peers = [
-			'grpcs://founder2-hktwlab-icn.blockchain.ocp.oraclecloud.com:20009',
-			'grpcs://founder2-hktwlab-icn.blockchain.ocp.oraclecloud.com:20010'
+			'grpcs://founder-hktwlab-sin.blockchain.ocp.oraclecloud.com:20009',
+			'grpcs://founder-hktwlab-sin.blockchain.ocp.oraclecloud.com:20010'
 		]
 		const archiveFile = path.resolve('test','diagnose.ccPack.tar')
 		const result = await chaincode.install(archiveFile, peers)
