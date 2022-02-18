@@ -1,7 +1,7 @@
 import {ConnectionContext} from '../index.js'
 import path from "path";
 import fs from "fs";
-
+import assert from 'assert'
 const basePath = 'console/admin/api/v2/chaincodes'
 
 export default class Chaincode extends ConnectionContext {
@@ -31,6 +31,14 @@ export default class Chaincode extends ConnectionContext {
 		return super.http({resourcePath, method: 'GET'})
 	}
 
+	/**
+	 *
+	 * @param archiveFile
+	 * @param peers
+	 * @param label
+	 * @param type
+	 * @return {string} package_id
+	 */
 	async install(archiveFile, peers, {label, type = "golang"} = {}) {
 		// BASE64 encoded zip file.
 		const fileName = path.basename(archiveFile)
@@ -49,7 +57,9 @@ export default class Chaincode extends ConnectionContext {
 		} else {
 			body.source.isPackaged = true
 		}
-		return super.http({resourcePath: basePath, method: 'POST', body})
+		const {respMesg, package_id} = await super.http({resourcePath: basePath, method: 'POST', body})
+		assert.strictEqual(respMesg, 'SUCCESS')
+		return package_id
 
 	}
 
