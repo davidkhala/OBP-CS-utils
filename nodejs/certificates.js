@@ -1,12 +1,12 @@
-const BaseClass = require('./common')
-const fs = require('fs')
-const path = require('path')
-const yaml = require('js-yaml');
+import BaseClass from './common.js'
+import fs from 'fs'
+import path from 'path'
+import yaml from 'js-yaml';
 
 /**
  * @class Certificates certificate file Generator
  */
-class Certificates extends BaseClass {
+export default class Certificates extends BaseClass {
 
     constructor(mspPath, mspID, logger) {
         super(mspPath, mspID, logger);
@@ -29,6 +29,3 @@ class Certificates extends BaseClass {
     }
 
 }
-
-
-module.exports = Certificates

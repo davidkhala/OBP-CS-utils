@@ -1,7 +1,7 @@
 import BaseClass from './common.js'
 import PeerManager from 'khala-fabric-sdk-node-builder/peer.js'
 
-class PeerNodes extends BaseClass {
+export default class PeerNodes extends BaseClass {
 
     constructor({mspPath, tlscacert}, mspID, logger) {
         super(mspPath, mspID, logger)
@@ -49,5 +49,3 @@ class PeerNodes extends BaseClass {
         })
     }
 }
-
-module.exports = PeerNodes

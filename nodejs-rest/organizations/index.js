@@ -1,6 +1,6 @@
-const {ConnectionContext} = require('../index')
+import {ConnectionContext} from '../index.js'
 const basePath = `console/admin/api/v1.1/organizations`
-class Organizations extends ConnectionContext {
+export default class Organizations extends ConnectionContext {
 
     async http(token, {body, method, params}, otherOptions = {}) {
         return super.http({resourcePath: `${basePath}/${token}`, body, method, params}, otherOptions);
@@ -15,5 +15,3 @@ class Organizations extends ConnectionContext {
     }
 
 }
-
-module.exports = Organizations

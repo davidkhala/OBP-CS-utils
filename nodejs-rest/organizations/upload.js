@@ -1,6 +1,6 @@
-const Organizations = require('./index')
-const assert = require('assert')
-const fs = require('fs')
+import Organizations from './index.js'
+import assert from 'assert'
+import fs from 'fs'
 /**
  * @typedef {Object} OrgInfo FIXME: which is accepted API format
  * @property {string} mspId
@@ -22,7 +22,7 @@ const fs = require('fs')
 /**
  *
  */
-class Upload extends Organizations {
+export default class Upload extends Organizations {
     constructor(context, orgName, logger) {
         super(context, logger);
         Object.assign(this, {orgName})
@@ -64,5 +64,3 @@ class Upload extends Organizations {
     }
 
 }
-
-module.exports = Upload

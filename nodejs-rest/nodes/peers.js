@@ -4,7 +4,7 @@ const VerifyResult= {
     success:'success',
     failure: 'failure',
 }
-class Peers extends Nodes {
+export default class Peers extends Nodes {
 
     /**
      * @typedef {Object} BlockAuditResult
@@ -33,5 +33,3 @@ class Peers extends Nodes {
         return await this.http(token, "GET")
     }
 }
-
-module.exports = Peers

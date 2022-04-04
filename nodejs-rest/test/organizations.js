@@ -1,8 +1,8 @@
-const {getContext, getParticipantContext} = require('./testUtil')
-const Download = require('../organizations/download')
-
-const path = require('path')
-const fs = require('fs')
+import {getContext, getParticipantContext} from './testUtil.js'
+import Download from '../organizations/download.js'
+import Organizations from '../organizations/index.js'
+import path from 'path'
+import fs from 'fs'
 describe('download founder', function () {
     this.timeout(0)
     const context = getContext()
@@ -47,7 +47,7 @@ describe('download participant', function (){
 })
 describe('index', function () {
     this.timeout(0)
-    const Organizations = require('../organizations/index')
+
     const context = getContext()
     it('list', async () => {
         const organizations = new Organizations(context)

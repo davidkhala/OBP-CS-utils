@@ -1,7 +1,7 @@
-const {ConnectionContext} = require('../index')
+import {ConnectionContext} from '../index.js'
 const basePath = 'console/admin/api/v1.1/nodes'
 
-class Nodes extends ConnectionContext {
+export default class Nodes extends ConnectionContext {
     async http(token, method) {
         const resourcePath = `${basePath}/${token}`
         return super.http({resourcePath, method})
@@ -15,5 +15,3 @@ class Nodes extends ConnectionContext {
         return this.http('', 'GET')
     }
 }
-
-module.exports = Nodes

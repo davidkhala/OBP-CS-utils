@@ -1,8 +1,8 @@
 import fs from 'fs'
 
-const OrdererManager = require('khala-fabric-sdk-node-builder/orderer')
+import OrdererManager from 'khala-fabric-sdk-node-builder/orderer.js'
 
-class Orderers {
+export default class Orderers {
 
     static FromOrdererSettings(jsonFile) {
         const {certs: {tlscacert}, orderingServiceNodes} = JSON.parse(fs.readFileSync(jsonFile, 'utf-8'))
@@ -14,4 +14,3 @@ class Orderers {
     }
 
 }
-module.exports = Orderers

@@ -1,7 +1,7 @@
 import Index from './index.js'
 import assert from 'assert'
 
-class Transactions extends Index {
+export default class Transactions extends Index {
 
 	constructor(context, channel = 'default', logger) {
 		super(context, logger);
@@ -30,5 +30,3 @@ class Transactions extends Index {
 		return payload
 	}
 }
-
-module.exports = Transactions

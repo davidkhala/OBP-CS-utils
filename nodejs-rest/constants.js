@@ -1,7 +1,7 @@
 /**
  * @enum {string}
  */
-const SupportedMethod = {
+export const SupportedMethod = {
     GET: "GET",
     POST: "POST",
     PATCH: "PATCH",
@@ -10,13 +10,13 @@ const SupportedMethod = {
 /**
  * @enum {string}
  */
-const ReturnCode = {
+export const ReturnCode = {
     SUCCESS: 'Success'
 }
 /**
  * @enum {string}
  */
-const NodeType = {
+export const NodeType = {
     CA: 'ca',
     proxyAPI: 'restproxy',
     consoleAPI: 'console',
@@ -27,15 +27,6 @@ const NodeType = {
  *
  * @enum {string}
  */
-const NodeStatus = {
+export const NodeStatus = {
     up: 'up'
 }
-
-module.exports = {
-    SupportedMethod,
-    ReturnCode,
-    NodeType,
-    NodeStatus,
-}
-
-

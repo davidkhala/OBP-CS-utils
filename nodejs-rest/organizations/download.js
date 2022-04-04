@@ -1,7 +1,7 @@
-const Organizations = require('./index')
-const fs = require('fs')
+import Organizations from './index.js'
+import fs from 'fs'
 
-class Download extends Organizations {
+export default class Download extends Organizations {
     constructor(context, orgName, logger) {
         super(context, logger);
         Object.assign(this, {orgName})
@@ -56,5 +56,3 @@ class Download extends Organizations {
         return {adminKey, adminCert}
     }
 }
-
-module.exports = Download

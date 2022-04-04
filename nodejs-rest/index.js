@@ -1,4 +1,4 @@
-import {axiosPromise} from 'khala-axios'
+import {axiosPromise} from '@davidkhala/axios'
 import dateformat from 'date-format'
 
 export class ConnectionContext {
