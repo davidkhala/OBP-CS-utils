@@ -1,4 +1,4 @@
-const Statistics = require('./index')
+import Statistics from './index.js'
 
 /**
  * @typedef {Object} ChannelInfo
@@ -8,13 +8,13 @@ const Statistics = require('./index')
  */
 
 
-class Channel extends Statistics {
-    /**
-     * @returns {Promise<Array<ChannelInfo>>}
-     */
-    async channelInfo() {
-        return this._get('channelInfo')
-    }
+export default class Channel extends Statistics {
+	/**
+	 * @returns {Promise<Array<ChannelInfo>>}
+	 */
+	async channelInfo() {
+		const {data} = await this._get('channelInfo')
+		return data
+	}
 }
 
-module.exports = Channel

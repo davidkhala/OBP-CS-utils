@@ -2,6 +2,13 @@ import {axiosPromise} from 'khala-axios'
 import dateformat from 'date-format'
 
 export class ConnectionContext {
+	/**
+	 *
+	 * @param username
+	 * @param password
+	 * @param route
+	 * @param [logger]
+	 */
 	constructor({username, password, route}, logger = console) {
 		if (!username) {
 			throw Error('Missing username')
@@ -25,10 +32,10 @@ export class ConnectionContext {
 	 * @param {number} [endTime] Epoch millisecond
 	 * @return {{startTime:string,endTime:string}}
 	 */
-	static dateFormat({startTime, endTime}) {
+	static dateFormat({startTime = 0, endTime= Date.now()}) {
 		const mask = 'yyyyMMddhhmmss'
 		const result = {}
-		if (startTime) {
+		if (startTime || startTime === 0) {
 			result.startTime = dateformat(mask, new Date(startTime))
 		}
 		if (endTime) {
@@ -55,4 +62,5 @@ export const ChaincodeSamples = {
 	balanceTransfer: 'obcs-example02',
 	carDealer: 'obcs-cardealer',
 	marbles: 'obcs-marbles',
+	FFT: 'obcs-FiatMoneyToken'
 }

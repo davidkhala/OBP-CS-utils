@@ -1,8 +1,8 @@
-const {ConnectionContext} = require('../index')
+import {ConnectionContext} from '../index.js'
 const basePath = 'restproxy/api/v2'
-const assert = require('assert')
+import assert from 'assert'
 
-class RestProxy extends ConnectionContext {
+export default class RestProxy extends ConnectionContext {
 
     async http(token, method, body) {
         const resourcePath = `${basePath}/${token}`
@@ -20,5 +20,3 @@ class RestProxy extends ConnectionContext {
         return result
     }
 }
-
-module.exports = RestProxy

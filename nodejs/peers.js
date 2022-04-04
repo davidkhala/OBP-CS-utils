@@ -1,5 +1,5 @@
-const BaseClass = require('./common')
-const PeerManager = require('khala-fabric-sdk-node-builder/peer')
+import BaseClass from './common.js'
+import PeerManager from 'khala-fabric-sdk-node-builder/peer.js'
 
 class PeerNodes extends BaseClass {
 

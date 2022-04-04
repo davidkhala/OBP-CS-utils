@@ -1,9 +1,9 @@
-const {getContext} = require('./testUtil')
-const assert = require('assert')
+import {getContext} from './testUtil.js'
+import App from '../application/index.js'
 describe('test Context', function () {
     this.timeout(0)
     it('version', async () => {
-        const App = require('../application')
+
         const context = getContext()
         await new App(context).version()
 

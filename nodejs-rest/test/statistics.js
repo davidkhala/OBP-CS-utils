@@ -1,20 +1,28 @@
-const Channel = require('../statistics/channel')
-const Node = require('../statistics/node')
-const assert = require('assert')
-const {getContext} = require('./testUtil')
+import Channel from '../statistics/channel.js'
+import Node from '../statistics/node.js'
+import Statistics from '../statistics/index.js'
+import assert from 'assert'
+import {getContext} from './testUtil.js'
+import {consoleLogger} from '@davidkhala/logger/log4.js'
 const channelName = process.env.channel || 'default'
-const logger = require('@davidkhala/logger/log4.js').consoleLogger('statistics')
+const logger = consoleLogger('statistics')
 describe('statistics', function () {
     this.timeout(0)
     const context = getContext()
+    it('audit', async ()=>{
+        const statistics= new Statistics(context)
+        const result = await statistics.audit()
+        logger.info(result)
+    })
     it('channelInfo', async () => {
         const channelStats = new Channel(context)
         const result = await channelStats.channelInfo()
-        console.info(result)
+        logger.info(result)
     })
     it('node', async () => {
-        const result = await new Node(context).health()
-        console.info(result)
+        const node = new Node(context)
+        const result = await node.health()
+        logger.info(result)
     })
 
 })

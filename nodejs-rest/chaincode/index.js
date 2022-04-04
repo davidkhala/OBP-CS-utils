@@ -6,9 +6,6 @@ const basePath = 'console/admin/api/v2/chaincodes'
 
 export default class Chaincode extends ConnectionContext {
 
-	constructor({username, password, route}, logger) {
-		super({username, password, route}, logger);
-	}
 
 	/**
 	 * Get Installed Chaincode List

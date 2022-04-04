@@ -14,6 +14,7 @@ import {
 	getPeers_davidkhala
 } from './testUtil.js'
 import ChannelManager from 'khala-fabric-sdk-node-builder/channel'
+import {channelJoined} from 'khala-fabric-sdk-node/query'
 import Orderers from '../orderer'
 
 import {consoleLogger} from '@davidkhala/logger/log4.js'
@@ -47,7 +48,7 @@ describe('join channel', function () {
 		}
 
 	})
-	const {channelJoined} = require('khala-fabric-sdk-node/query')
+
 	it('channelJoined', async () => {
 		const peers = getPeers_davidkhala()
 		const {peer} = peers[0]

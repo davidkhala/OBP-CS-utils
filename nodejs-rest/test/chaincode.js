@@ -18,8 +18,8 @@ describe('chaincode', function () {
 		const context = getContext()
 		const chaincode = new Chaincode(context)
 		const peers = [
-			'grpcs://founder-hktwlab-sin.blockchain.ocp.oraclecloud.com:20009',
-			'grpcs://founder-hktwlab-sin.blockchain.ocp.oraclecloud.com:20010'
+			'grpcs://founder-2-hktwlab-sin.blockchain.ocp.oraclecloud.com:20009',
+			'grpcs://founder-2-hktwlab-sin.blockchain.ocp.oraclecloud.com:20010\t'
 		]
 		const archiveFile = path.resolve('test','diagnose.ccPack.tar')
 		const result = await chaincode.install(archiveFile, peers)
