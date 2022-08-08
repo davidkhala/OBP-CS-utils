@@ -1,19 +1,16 @@
 {
   "name": "ochain-util",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "scripts": {
     "test": "mocha test",
     "ping": "mocha test/connectivity.js",
     "build": "node bin/replace-install.js"
   },
   "dependencies": {
-    "fabric-ca-client": "^1.4.10",
-    "fabric-client": "^1.4.10",
-    "fs-extra": "^6.0.1",
-    "khala-fabric-formatter": "latest-1.4",
-    "khala-fabric-sdk-node": "latest-1.4",
-    "khala-fabric-sdk-node-builder": "1.4.5-0.0.0",
-    "log4js": "^5.1.0",
+    "fs-extra": "latest",
+    "khala-fabric-formatter": "latest",
+    "khala-fabric-sdk-node": "latest",
+    "khala-fabric-admin": "latest",
     "js-yaml": "latest"
   },
   "bin": {
@@ -21,6 +18,10 @@
   },
   "devDependencies": {
     "mocha": "latest",
-    "@davidkhala/logger": "latest"
-  }
+    "@davidkhala/logger": "latest",
+    "@davidkhala/oci-key-vault": "latest",
+    "@davidkhala/oci-common": "latest",
+    "@davidkhala/crypto": "latest"
+  },
+  "type": "module"
 }
