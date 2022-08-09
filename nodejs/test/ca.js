@@ -24,12 +24,12 @@ if (!enrollmentSecret) {
     throw  Error('process.env.IDCS_PASSWORD not found')
 }
 const keystore = path.resolve(`test/artifacts/founder-user-credential/priv_sk`)
-const signcert = path.resolve(`test/artifacts/founder-user-credential/${enrollmentID}-cert.pem`)
+const signCert = path.resolve(`test/artifacts/founder-user-credential/${enrollmentID}-cert.pem`)
 const getUser = () => {
     const userBuilder = new UserBuilder({name: enrollmentID})
     return userBuilder.build({
         key: fs.readFileSync(keystore),
-        certificate: fs.readFileSync(signcert),
+        certificate: fs.readFileSync(signCert),
         mspId: 'founder'
     });
 }
@@ -59,20 +59,21 @@ describe('ca', function () {
 
         ecdsaKey.toKeystore(path.dirname(keystore))
 
-        fs.writeFileSync(signcert, certificate)
+        fs.writeFileSync(signCert, certificate)
     })
     it('enroll: with CSR', async () => {
+        // 1. Get Public key of ECDSA key in OCI vault
         const vaultId = 'ocid1.vault.oc1.ap-singapore-1.enrhpwtoaabem.abzwsljrk57oclvejakgkh42rblwi7dmymmhnfrmt7nmloagt24mcrpl236q'
         const vault = new Vault(auth)
         const health = await auth.connect()
         assert.ok(health)
         const oneVault = await vault.get(vaultId)
-
         const keyID = 'ocid1.key.oc1.ap-singapore-1.enrhpwtoaabem.abzwsljrizggn5jlznyv7j64ccchehu6wc6vmfllyobilups4ahhp34pzyqq'
         const key = new Key(auth, oneVault)
         const keyPEM = await key.publicKeyOf(keyID)
-
         const publicKey = ECDSAKey.FromPEM(keyPEM);
+
+        // 2. Prepare CRI
         const subject = new X500Name();
         subject.setCountryName('HK');
         subject.setOrganizationName('Oracle');
@@ -84,6 +85,7 @@ describe('ca', function () {
 
         const unsignedHex = csr.getUnsignedHex();
         const message = Buffer.from(unsignedHex, 'hex')
+        // 3. Sign CRI by KMS
         const signature_base64 = await key.sign(keyID, message)
         console.info(signature_base64);
         const sig_hex = Buffer.from(signature_base64, 'base64').toString('hex')
@@ -91,20 +93,22 @@ describe('ca', function () {
         const pem = csr.toPemWithSignature(sig_hex, signatureAlgorithm)
         console.info(pem)
 
+        // 4. AuthN and enroll certificate
         const {certificate, rootCertificate} = await caService.enroll({enrollmentID, enrollmentSecret, csr:pem});
         console.info({certificate})
         console.info({rootCertificate})
 
-        fs.writeFileSync(signcert, certificate)
+        fs.writeFileSync(signCert, certificate)
+
     })
 
 
     it('list affiliation: Not supported', async () => {
 
         const user = getUser()
-        const {affiliationService} = new AffiliationService(caService);
+        const {affiliationService} = new AffiliationService(caService, user);
         try {
-            await affiliationService.getAll(user)
+            await affiliationService.getAll()
         } catch (e) {
             // Failed to get affiliation: Not supported
             assert.strictEqual(`fabric-ca request affiliations failed with errors [[{"code":49,"message":"Failed to get affiliation: Not supported"}]]`, e.message)
@@ -114,9 +118,9 @@ describe('ca', function () {
     })
     it('list id: Not supported', async () => {
         const user = getUser()
-        const idService = new IdentityService(caService);
+        const idService = new IdentityService(caService, user);
         try {
-            await idService.getAll(user);
+            await idService.getAll();
         } catch (e) {
             assert.strictEqual(`fabric-ca request identities?ca=founderca failed with errors [[{"code":49,"message":"Failed to get users by affiliation and type: Not supported"}]]`, e.message)
         }

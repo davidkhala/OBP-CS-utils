@@ -21,7 +21,8 @@
     "@davidkhala/logger": "latest",
     "@davidkhala/oci-key-vault": "latest",
     "@davidkhala/oci-common": "latest",
-    "@davidkhala/crypto": "latest"
+    "@davidkhala/crypto": "latest",
+    "fabric-common": "latest"
   },
   "type": "module"
 }
