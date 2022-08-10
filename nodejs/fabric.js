@@ -16,7 +16,7 @@ export class VaultIdentityContext extends IdentityContext {
         const vaultKey = new VaultKey(key)
         const identity = new VaultSigningIdentity(certificate, vaultKey, mspId)
         const user = new VaultFakeUser({
-            name: keyId,
+            name: key.keyId,
             mspid: mspId,
             identity,
         })

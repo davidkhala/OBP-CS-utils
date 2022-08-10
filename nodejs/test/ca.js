@@ -25,6 +25,7 @@ if (!enrollmentSecret) {
 }
 const keystore = path.resolve(`test/artifacts/founder-user-credential/priv_sk`)
 const signCert = path.resolve(`test/artifacts/founder-user-credential/${enrollmentID}-cert.pem`)
+const rootCert = path.resolve(`test/artifacts/founder-user-credential/root-cert.pem`)
 const getUser = () => {
     const userBuilder = new UserBuilder({name: enrollmentID})
     return userBuilder.build({
@@ -69,8 +70,8 @@ describe('ca', function () {
         assert.ok(health)
         const oneVault = await vault.get(vaultId)
         const keyID = 'ocid1.key.oc1.ap-singapore-1.enrhpwtoaabem.abzwsljrizggn5jlznyv7j64ccchehu6wc6vmfllyobilups4ahhp34pzyqq'
-        const key = new Key(auth, oneVault)
-        const keyPEM = await key.publicKeyOf(keyID)
+        const key = new Key(auth, oneVault, keyID)
+        const keyPEM = await key.publicKey()
         const publicKey = ECDSAKey.FromPEM(keyPEM);
 
         // 2. Prepare CRI
@@ -86,7 +87,7 @@ describe('ca', function () {
         const unsignedHex = csr.getUnsignedHex();
         const message = Buffer.from(unsignedHex, 'hex')
         // 3. Sign CRI by KMS
-        const signature_base64 = await key.sign(keyID, message)
+        const signature_base64 = await key.sign(message)
         console.info(signature_base64);
         const sig_hex = Buffer.from(signature_base64, 'base64').toString('hex')
         const signatureAlgorithm = 'SHA256withECDSA'
@@ -94,11 +95,12 @@ describe('ca', function () {
         console.info(pem)
 
         // 4. AuthN and enroll certificate
-        const {certificate, rootCertificate} = await caService.enroll({enrollmentID, enrollmentSecret, csr:pem});
+        const {certificate, rootCertificate} = await caService.enroll({enrollmentID, enrollmentSecret, csr: pem});
         console.info({certificate})
         console.info({rootCertificate})
 
         fs.writeFileSync(signCert, certificate)
+        fs.writeFileSync(rootCert, rootCertificate)
 
     })
 
