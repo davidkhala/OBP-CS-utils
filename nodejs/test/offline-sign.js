@@ -82,6 +82,7 @@ describe('offline-signing', function () {
 		const proposal = new ProposalManager(identityContext, endorsers, chaincodeId, emptyChannel(channelName));
 		proposal.asEndorsement();
 		proposal.signingProcess = async (payload) => {
+			fs.writeFileSync(path.resolve('payload' + Date.now()), Buffer.from(payload).toString('base64'));
 			const signature_base64 = await key.sign(payload);
 			return Buffer.from(signature_base64, 'base64');
 		};
@@ -94,7 +95,6 @@ describe('offline-signing', function () {
 		console.info(getQueryResults(rawResult));
 
 		// commit
-
 		const committers = [orderer0.committer];
 
 		const commitResult = await proposal.commit(committers);
