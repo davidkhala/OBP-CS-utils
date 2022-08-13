@@ -33,11 +33,11 @@ export default class Chaincode extends ConnectionContext {
 	 *
 	 * @param archiveFile
 	 * @param {[]} peers
-	 * @param [label]
+	 * @param label
 	 * @param [type]
 	 * @return {Promise<string>} package_id
 	 */
-	async install(archiveFile, peers, {label, type = 'golang'} = {}) {
+	async install(archiveFile, peers, label, type = 'golang') {
 		// BASE64 encoded zip file.
 		const fileName = path.basename(archiveFile);
 
@@ -46,15 +46,10 @@ export default class Chaincode extends ConnectionContext {
 			source: {
 				fileName,
 				content,
-			},
-
+			}, label, type,
 			peers: peers.map(peer => ({url: peer}))
 		};
-		if (label) {
-			Object.assign(body, {label, type});
-		} else {
-			body.source.isPackaged = true;
-		}
+
 		const {respMesg, package_id} = await super.http({resourcePath: basePath, method: 'POST', body});
 		assert.strictEqual(respMesg, 'SUCCESS');
 		return package_id;

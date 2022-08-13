@@ -2,6 +2,7 @@ import RestProxy from '../application/index.js';
 import Chaincode from '../chaincode/index.js';
 import {getContext} from './testUtil.js';
 import path from 'path';
+import assert from 'assert';
 
 describe('chaincode', function () {
 	this.timeout(0);
@@ -20,7 +21,7 @@ describe('chaincode', function () {
 		const queryResult = await chaincode.list(peerID);
 		console.log(queryResult);
 	});
-	it('install', async () => {
+	it('install from package is not allowed', async () => {
 		const context = getContext();
 		const chaincode = new Chaincode(context);
 		const peers = [
@@ -28,8 +29,15 @@ describe('chaincode', function () {
 			'grpcs://founder-2-hktwlab-sin.blockchain.ocp.oraclecloud.com:20010\t'
 		];
 		const archiveFile = path.resolve('test', 'diagnose.ccPack.tar');
-		const result = await chaincode.install(archiveFile, peers);
-		console.log(result);
+		const label = 'diagnose';
+		try {
+			await chaincode.install(archiveFile, peers, label);
+		} catch (e) {
+			const {statusCode} = e;
+			assert.strictEqual(statusCode, 500);
+		}
+
+
 	});
 	it('get', async () => {
 		const packageId = 'diagnose:b1d9baae2baf9d95e1b39f081be199852759464dc67658833920d114d5dcea27';
