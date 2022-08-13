@@ -1,5 +1,5 @@
-import {axiosPromise} from '@davidkhala/axios'
-import dateformat from 'date-format'
+import {axiosPromise} from '@davidkhala/axios';
+import dateformat from 'date-format';
 
 export class ConnectionContext {
 	/**
@@ -11,19 +11,19 @@ export class ConnectionContext {
 	 */
 	constructor({username, password, route}, logger = console) {
 		if (!username) {
-			throw Error('Missing username')
+			throw Error('Missing username');
 		}
 		if (!password) {
-			throw Error('Missing password')
+			throw Error('Missing password');
 		}
-		Object.assign(this, {username, password, route, logger})
+		Object.assign(this, {username, password, route, logger});
 	}
 
 	async http({resourcePath, body, method, params}, otherOptions = {}) {
-		const {username, password, route} = this
-		Object.assign(otherOptions, {auth: {username, password}})
-		const url = `${route}/${resourcePath}`
-		return axiosPromise({url, body, method, params}, otherOptions)
+		const {username, password, route} = this;
+		Object.assign(otherOptions, {auth: {username, password}});
+		const url = `${route}/${resourcePath}`;
+		return axiosPromise({url, body, method, params}, otherOptions);
 	}
 
 	/**
@@ -32,26 +32,26 @@ export class ConnectionContext {
 	 * @param {number} [endTime] Epoch millisecond
 	 * @return {{startTime:string,endTime:string}}
 	 */
-	static dateFormat({startTime = 0, endTime= Date.now()}) {
-		const mask = 'yyyyMMddhhmmss'
-		const result = {}
+	static dateFormat({startTime = 0, endTime = Date.now()}) {
+		const mask = 'yyyyMMddhhmmss';
+		const result = {};
 		if (startTime || startTime === 0) {
-			result.startTime = dateformat(mask, new Date(startTime))
+			result.startTime = dateformat(mask, new Date(startTime));
 		}
 		if (endTime) {
-			result.endTime = dateformat(mask, new Date(endTime))
+			result.endTime = dateformat(mask, new Date(endTime));
 		}
-		return result
+		return result;
 	}
 }
 
 export class Route {
 	static From(instance, sequence, tenancy, RegionKey) {
-		return `https://${instance}-${sequence}-${tenancy}-${RegionKey.toLowerCase()}.blockchain.ocp.oraclecloud.com:7443`
+		return `https://${instance}-${sequence}-${tenancy}-${RegionKey.toLowerCase()}.blockchain.ocp.oraclecloud.com:7443`;
 	}
 
 	static FromDomain(domain) {
-		return `https://${domain}:7443`
+		return `https://${domain}:7443`;
 	}
 }
 
@@ -63,4 +63,4 @@ export const ChaincodeSamples = {
 	carDealer: 'obcs-cardealer',
 	marbles: 'obcs-marbles',
 	FFT: 'obcs-FiatMoneyToken'
-}
+};

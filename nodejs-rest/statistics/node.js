@@ -1,4 +1,4 @@
-import Statistics from './index.js'
+import Statistics from './index.js';
 
 /**
  * @typedef {Object} _nodeBaseInfo
@@ -34,8 +34,8 @@ export default class Node extends Statistics {
 	 * @returns {Promise<NodeHealthStatus[]>}
 	 */
 	async health() {
-		const {data} = await this._get('nodeHealth')
-		return data
+		const {data} = await this._get('nodeHealth');
+		return data;
 	}
 
 	/**
@@ -44,8 +44,8 @@ export default class Node extends Statistics {
 	 * @returns {Promise<Array<OCIMetric>>}
 	 */
 	async OCI({nodeID} = {}) {
-		const params = {nodeID}
-		return this._get('nodeRes', params)
+		const params = {nodeID};
+		return this._get('nodeRes', params);
 	}
 
 	/**
@@ -59,11 +59,11 @@ export default class Node extends Statistics {
 	async endorsements({channel, nodeID, startTime, endTime} = {}) {
 		const params = {
 			channel, nodeID
-		}
-		Object.assign(params, Node.dateFormat({startTime, endTime}))
+		};
+		Object.assign(params, Node.dateFormat({startTime, endTime}));
 
-		const {endorsements} = await this._get('endorsements', params)
-		return endorsements
+		const {endorsements} = await this._get('endorsements', params);
+		return endorsements;
 	}
 
 	/**
@@ -77,11 +77,11 @@ export default class Node extends Statistics {
 	async commits({channel, nodeID, startTime, endTime} = {}) {
 		const params = {
 			channel, nodeID
-		}
-		Object.assign(params, Node.dateFormat({startTime, endTime}))
+		};
+		Object.assign(params, Node.dateFormat({startTime, endTime}));
 
-		const {commits} = await this._get('commits', params)
-		return commits
+		const {commits} = await this._get('commits', params);
+		return commits;
 	}
 
 	/**
@@ -96,13 +96,13 @@ export default class Node extends Statistics {
 	async userTx({channel, nodeID, startTime, endTime, orderer} = {}) {
 		const params = {
 			channel, nodeID
-		}
+		};
 		if (orderer) {
-			params.orderer = 'Y'
-			delete params.nodeID
+			params.orderer = 'Y';
+			delete params.nodeID;
 		}
-		Object.assign(params, Node.dateFormat({startTime, endTime}))
-		const {userTrans} = await this._get('userTrans', params)
-		return userTrans
+		Object.assign(params, Node.dateFormat({startTime, endTime}));
+		const {userTrans} = await this._get('userTrans', params);
+		return userTrans;
 	}
 }

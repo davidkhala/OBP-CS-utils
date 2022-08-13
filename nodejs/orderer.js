@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-import OrdererManager from 'khala-fabric-sdk-node-builder/orderer.js';
+import OrdererManager from 'khala-fabric-admin/orderer.js';
 
 export default class Orderers {
 

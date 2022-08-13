@@ -1,16 +1,16 @@
-import {ConnectionContext, Route} from '../index.js'
+import {ConnectionContext, Route} from '../index.js';
 
-const {FromDomain} = Route
+const {FromDomain} = Route;
 export const getContext = () => {
-	const username = process.env.IDCS_ID
-	const password = process.env.IDCS_PASSWORD
+	const username = process.env.IDCS_ID;
+	const password = process.env.IDCS_PASSWORD;
 
-	const route = FromDomain('founder-2-hktwlab-sin.blockchain.ocp.oraclecloud.com')
-	return new ConnectionContext({username, password, route})
-}
+	const route = FromDomain('founder-2-hktwlab-sin.blockchain.ocp.oraclecloud.com');
+	return new ConnectionContext({username, password, route});
+};
 export const getParticipantContext = () => {
-	const username = process.env.IDCS_ID
-	const password = process.env.IDCS_PASSWORD
-	const route = FromDomain('participate-hktwlab-icn.blockchain.ocp.oraclecloud.com')
-	return new ConnectionContext({username, password, route})
-}
+	const username = process.env.IDCS_ID;
+	const password = process.env.IDCS_PASSWORD;
+	const route = FromDomain('participate-hktwlab-icn.blockchain.ocp.oraclecloud.com');
+	return new ConnectionContext({username, password, route});
+};

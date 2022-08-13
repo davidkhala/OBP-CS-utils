@@ -1,6 +1,6 @@
 import {
-	getAdmin_davidkhala_Client,
-	getAdmin_founder_Client,
+	getAdmin_davidkhala_user,
+	getAdmin_founder_user,
 	getPeers_founder,
 	getPeers_davidkhala
 } from '../test/testUtil.js'
@@ -20,7 +20,7 @@ describe('deploy chaincode', function () {
 		assert.ok(await peerManager.ping())
 
 
-		const client_david = getAdmin_davidkhala_Client();
+		const client_david = getAdmin_davidkhala_user();
 		await setGOPATH()
 
 		const results0 = await install([peerManager.peer], {
@@ -40,7 +40,7 @@ describe('deploy chaincode', function () {
 
 		const peers_founder = getPeers_founder()
 
-		const client_founder = getAdmin_founder_Client()
+		const client_founder = getAdmin_founder_user()
 
 		const results1 = await install([peers_founder[0].peer], {
 			chaincodeId,

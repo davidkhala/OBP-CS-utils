@@ -1,5 +1,6 @@
+import fs from 'fs';
 import BaseClass from './common.js';
-import PeerManager from 'khala-fabric-sdk-node-builder/peer.js';
+import PeerManager from 'khala-fabric-admin/peer.js';
 
 export default class PeerNodes extends BaseClass {
 
@@ -17,7 +18,7 @@ export default class PeerNodes extends BaseClass {
 	 * @return {PeerManager[]}
 	 */
 	static FromExportedNodes(jsonFile) {
-		const fs = require('fs');
+
 		const {tlscacert, peers} = JSON.parse(fs.readFileSync(jsonFile, 'utf-8'));
 
 		return peers.map(({address}) => {

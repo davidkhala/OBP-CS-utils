@@ -1,11 +1,11 @@
-const basePath = 'console/admin/api/v2/dashboard/statistics'
-import {ConnectionContext} from '../index.js'
+const basePath = 'console/admin/api/v2/dashboard/statistics';
+import {ConnectionContext} from '../index.js';
 
 export default class Statistics extends ConnectionContext {
 	async _get(token, params) {
-		const resourcePath = `${basePath}/${token}`
-		const method = 'GET'
-		return await this.http({resourcePath, method, params})
+		const resourcePath = `${basePath}/${token}`;
+		const method = 'GET';
+		return await this.http({resourcePath, method, params});
 	}
 
 	/**
@@ -25,7 +25,7 @@ export default class Statistics extends ConnectionContext {
 	 * @return {Promise<{limit:number,offset:number,count:number, auditLogs:AuditLog[] }>}
 	 */
 	async audit(params = {}) {
-		Object.assign(params, ConnectionContext.dateFormat({}))
-		return await this._get('auditlog', params)
+		Object.assign(params, ConnectionContext.dateFormat({}));
+		return await this._get('auditlog', params);
 	}
 }

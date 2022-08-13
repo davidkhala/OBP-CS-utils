@@ -5,6 +5,7 @@ import Peer from 'khala-fabric-admin/peer.js';
 import {VaultIdentityContext} from '../fabric.js';
 import fs from 'fs';
 import {Key, Vault} from '@davidkhala/oci-key-vault';
+import {sha2_256} from '@davidkhala/oci-key-vault/convention.js';
 import assert from 'assert';
 import {FileAuthentication} from '@davidkhala/oci-common';
 import {args_transfer, args_queryA} from './chaincode-balanceTransfer.js';
@@ -82,8 +83,8 @@ describe('offline-signing', function () {
 		const proposal = new ProposalManager(identityContext, endorsers, chaincodeId, emptyChannel(channelName));
 		proposal.asEndorsement();
 		proposal.signingProcess = async (payload) => {
-			fs.writeFileSync(path.resolve('payload' + Date.now()), Buffer.from(payload).toString('base64'));
-			const signature_base64 = await key.sign(payload);
+			const digest = sha2_256(payload);
+			const signature_base64 = await key.sign(digest, undefined, undefined, true);
 			return Buffer.from(signature_base64, 'base64');
 		};
 
@@ -95,6 +96,7 @@ describe('offline-signing', function () {
 		console.info(getQueryResults(rawResult));
 
 		// commit
+		await orderer0.connect();
 		const committers = [orderer0.committer];
 
 		const commitResult = await proposal.commit(committers);

@@ -1,4 +1,4 @@
-import Statistics from './index.js'
+import Statistics from './index.js';
 
 /**
  * @typedef {Object} ChannelInfo
@@ -13,8 +13,8 @@ export default class Channel extends Statistics {
 	 * @returns {Promise<Array<ChannelInfo>>}
 	 */
 	async channelInfo() {
-		const {data} = await this._get('channelInfo')
-		return data
+		const {data} = await this._get('channelInfo');
+		return data;
 	}
 }
 

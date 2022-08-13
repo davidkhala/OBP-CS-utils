@@ -1,8 +1,9 @@
-import {ConnectionContext} from '../index.js'
-import path from "path";
-import fs from "fs";
-import assert from 'assert'
-const basePath = 'console/admin/api/v2/chaincodes'
+import {ConnectionContext} from '../index.js';
+import path from 'path';
+import fs from 'fs';
+import assert from 'assert';
+
+const basePath = 'console/admin/api/v2/chaincodes';
 
 export default class Chaincode extends ConnectionContext {
 
@@ -12,35 +13,35 @@ export default class Chaincode extends ConnectionContext {
 	 * @param {string} [peerId] ID of the peer where the chaincode is installed
 	 */
 	async list(peerId) {
-		const params = {peerId}
-		const rawResult = await super.http({resourcePath: basePath, method: 'GET', params})
-		const result = {}
+		const params = {peerId};
+		const rawResult = await super.http({resourcePath: basePath, method: 'GET', params});
+		const result = {};
 		for (const {peerId, chaincodes} of rawResult) {
-			result[peerId] = chaincodes
+			result[peerId] = chaincodes;
 		}
 
-		return result
+		return result;
 	}
 
 	async get(packageID) {
 
-		const resourcePath = `${basePath}/${packageID}`
-		return super.http({resourcePath, method: 'GET'})
+		const resourcePath = `${basePath}/${packageID}`;
+		return super.http({resourcePath, method: 'GET'});
 	}
 
 	/**
 	 *
 	 * @param archiveFile
-	 * @param peers
-	 * @param label
-	 * @param type
-	 * @return {string} package_id
+	 * @param {[]} peers
+	 * @param [label]
+	 * @param [type]
+	 * @return {Promise<string>} package_id
 	 */
-	async install(archiveFile, peers, {label, type = "golang"} = {}) {
+	async install(archiveFile, peers, {label, type = 'golang'} = {}) {
 		// BASE64 encoded zip file.
-		const fileName = path.basename(archiveFile)
+		const fileName = path.basename(archiveFile);
 
-		const content = fs.readFileSync(archiveFile).toString('base64')
+		const content = fs.readFileSync(archiveFile).toString('base64');
 		const body = {
 			source: {
 				fileName,
@@ -48,15 +49,15 @@ export default class Chaincode extends ConnectionContext {
 			},
 
 			peers: peers.map(peer => ({url: peer}))
-		}
+		};
 		if (label) {
-			Object.assign(body, {label, type})
+			Object.assign(body, {label, type});
 		} else {
-			body.source.isPackaged = true
+			body.source.isPackaged = true;
 		}
-		const {respMesg, package_id} = await super.http({resourcePath: basePath, method: 'POST', body})
-		assert.strictEqual(respMesg, 'SUCCESS')
-		return package_id
+		const {respMesg, package_id} = await super.http({resourcePath: basePath, method: 'POST', body});
+		assert.strictEqual(respMesg, 'SUCCESS');
+		return package_id;
 
 	}
 
