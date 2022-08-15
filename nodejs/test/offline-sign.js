@@ -92,7 +92,7 @@ describe('offline-signing', function () {
 		const [fcn, ...args] = args_queryA;
 
 		// TODO workaround by `peer/Propose` ACL = READERS with manual ACL applied to client certificate
-		const rawResult = await proposal.send({fcn, args,});
+		const rawResult = await proposal.send({fcn, args});
 		console.info(getQueryResults(rawResult));
 
 		// commit

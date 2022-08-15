@@ -21,7 +21,7 @@ if (!enrollmentID) {
 }
 const enrollmentSecret = process.env.IDCS_PASSWORD;
 if (!enrollmentSecret) {
-	throw  Error('process.env.IDCS_PASSWORD not found');
+	throw Error('process.env.IDCS_PASSWORD not found');
 }
 const keystore = path.resolve('test/artifacts/founder-user-credential/priv_sk');
 const signCert = path.resolve(`test/artifacts/founder-user-credential/${enrollmentID}-cert.pem`);
@@ -29,9 +29,7 @@ const rootCert = path.resolve('test/artifacts/founder-user-credential/root-cert.
 const getUser = () => {
 	const userBuilder = new UserBuilder({name: enrollmentID});
 	return userBuilder.build({
-		key: fs.readFileSync(keystore),
-		certificate: fs.readFileSync(signCert),
-		mspId: 'founder'
+		key: fs.readFileSync(keystore), certificate: fs.readFileSync(signCert), mspId: 'founder'
 	});
 };
 describe('ca', function () {
