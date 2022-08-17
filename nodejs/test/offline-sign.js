@@ -5,10 +5,12 @@ import Peer from 'khala-fabric-admin/peer.js';
 import {VaultIdentityContext} from '../fabric.js';
 import fs from 'fs';
 import {Key, Vault} from '@davidkhala/oci-key-vault';
+import {Key as AzureKey} from '@davidkhala/azure-key-vault/index.js';
 import {sha2_256} from '@davidkhala/oci-key-vault/convention.js';
 import assert from 'assert';
 import {FileAuthentication} from '@davidkhala/oci-common';
 import {args_transfer, args_queryA} from './chaincode-balanceTransfer.js';
+import {DefaultAzureCredential} from '@azure/identity';
 import Orderer from 'khala-fabric-admin/orderer.js';
 
 import {isArrayEven} from '@davidkhala/light/syntax.js';
@@ -59,7 +61,21 @@ describe('offline-signing', function () {
 		assert.ok(await peer1.ping());
 		assert.ok(await orderer0.ping());
 	});
-	it('propose', async () => {
+	it('Signed by Azure Vault', async () => {
+		const vaultName = 'davidkhala-vault';
+		const keyName = 'EC';
+
+		const configFileCredential = new DefaultAzureCredential();
+		const keyOpt = new AzureKey(vaultName, configFileCredential);
+		console.warn(new Date());
+		const keyCrypto = await keyOpt.asCrypto(keyName);
+		const message = 'My data';
+		//
+		// const signature = await keyCrypto.sign(message);
+		// const isValid = await keyCrypto.verify(message, signature);
+		// assert.ok(isValid);
+	});
+	it('Signed by OCI Vault', async () => {
 
 		const vaultId = 'ocid1.vault.oc1.ap-singapore-1.enrhpwtoaabem.abzwsljrk57oclvejakgkh42rblwi7dmymmhnfrmt7nmloagt24mcrpl236q';
 		const vault = new Vault(auth);

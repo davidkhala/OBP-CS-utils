@@ -23,7 +23,9 @@
     "@davidkhala/oci-common": "latest",
     "@davidkhala/crypto": "latest",
     "fabric-common": "latest",
-    "@davidkhala/light": "latest"
+    "@davidkhala/light": "latest",
+    "@azure/identity": "latest",
+    "@davidkhala/azure-key-vault": "latest"
   },
   "type": "module"
 }
