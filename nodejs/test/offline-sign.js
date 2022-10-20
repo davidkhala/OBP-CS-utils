@@ -67,13 +67,13 @@ describe('offline-signing', function () {
 
 		const configFileCredential = new DefaultAzureCredential();
 		const keyOpt = new AzureKey(vaultName, configFileCredential);
-		console.warn(new Date());
+
 		const keyCrypto = await keyOpt.asCrypto(keyName);
 		const message = 'My data';
-		//
-		// const signature = await keyCrypto.sign(message);
-		// const isValid = await keyCrypto.verify(message, signature);
-		// assert.ok(isValid);
+
+		const signature = await keyCrypto.sign(message);
+		const isValid = await keyCrypto.verify(message, signature);
+		assert.ok(isValid);
 	});
 	it('Signed by OCI Vault', async () => {
 

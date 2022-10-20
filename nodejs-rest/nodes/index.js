@@ -1,10 +1,10 @@
 import {ConnectionContext} from '../index.js';
-const basePath = 'console/admin/api/v1.1/nodes';
+const basePath = 'console/admin/api/v2/nodes';
 
 export default class Nodes extends ConnectionContext {
-	async http(token, method) {
+	async http(token, method, body) {
 		const resourcePath = `${basePath}/${token}`;
-		return super.http({resourcePath, method});
+		return super.http({resourcePath, method, body});
 	}
 
 	/**
