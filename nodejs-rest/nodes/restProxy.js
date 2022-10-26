@@ -12,10 +12,11 @@ export function isRESTProxyId(RESTProxyId) {
     return RESTProxyId.match(/^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}-restproxy$/gm)
 }
 
-const enrollmentIDRegx = /^[\w-]*$/gm
+export const defaultEnrollmentID = 'defaultuser'
+export const enrollmentIDRegx = /^[\w-]+$/gm
 
 export function isEnrollmentID(id) {
-    return typeof id === 'string' && id.match(enrollmentIDRegx) && id !== 'defaultuser'
+    return typeof id === 'string' && id.match(enrollmentIDRegx) && id !== defaultEnrollmentID
 }
 
 export class Enrollment extends RestProxy {
@@ -44,7 +45,9 @@ export class Enrollment extends RestProxy {
         if (isEnrollmentID(enrollmentId)) {
             return await this.http(`${enrollmentId}/users`, 'GET')
         } else {
-            return await this.http('', 'GET')
+            const result = await this.http('', 'GET')
+            assert.ok(result.includes(defaultEnrollmentID))
+            return result
         }
     }
 

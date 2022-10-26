@@ -56,7 +56,6 @@ describe('restProxy', function () {
 
     })
     it('delete enrollment', async () => {
-        const enrollmentID = 'david-khala'
-        await enrollment.delete(enrollmentID)
+        await enrollment.delete(newEnrollmentID)
     })
 })
