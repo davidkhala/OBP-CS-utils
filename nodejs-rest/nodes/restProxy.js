@@ -24,8 +24,22 @@ export class Enrollment extends RestProxy {
         return super.http(`${this.RESTProxyId}/enrollments/${token}`, method, body);
     }
 
-    async list() {
-        return await this.http('', 'GET')
+
+    async associate(enrollmentId, userName) {
+        // FIXME 400 for associate it to 'defaultuser'
+        await this.http(`${enrollmentId}/users`, 'POST', {userName})
+    }
+
+    async list(enrollmentId) {
+        if (enrollmentId) {
+            if (typeof enrollmentId !== 'string') {
+                enrollmentId = 'defaultuser'
+            //     TODO 404 'defaultuser' has no prebuilt enrollments?
+            }
+            return await this.http(`${enrollmentId}/users`, 'GET')
+        } else {
+            return await this.http('', 'GET')
+        }
     }
 
     async create(enrollmentId, attributes = {}) {

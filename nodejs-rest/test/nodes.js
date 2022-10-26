@@ -28,18 +28,23 @@ describe('nodes', function () {
 });
 describe('restProxy', function () {
     this.timeout(0)
-    const id = 'fbe5d273-4245-4b16-82f8-3c1adc56482c-restproxy'
+    const restProxyId = 'fbe5d273-4245-4b16-82f8-3c1adc56482c-restproxy'
     it('RESTProxyId sancheck', () => {
-        assert.ok(isRESTProxyId(id))
+        assert.ok(isRESTProxyId(restProxyId))
         assert.ok(!isRESTProxyId('restproxy'))
     })
     const context = getContext();
-    const enrollment = new Enrollment(id, context)
+    const enrollment = new Enrollment(restProxyId, context)
+    enrollment.debug = true
     it('list enrollment', async () => {
-        const result = await enrollment.list()
-        console.info(result)
-        assert.ok(result.includes('defaultuser'))
-
+        const r1 = await enrollment.list()
+        console.info(r1)
+        assert.ok(r1.includes('defaultuser'))
+        const r2 = await enrollment.list(true)// TODO 404 status
+        console.debug(r2)
+    })
+    it('link new user to to default enrollment', async () => {
+        await enrollment.associate('defaultuser', 'davidkhala')
     })
     it('create enrollment', async () => {
         const enrollmentID = 'test'
