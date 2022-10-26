@@ -12,6 +12,12 @@ export function isRESTProxyId(RESTProxyId) {
     return RESTProxyId.match(/^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}-restproxy$/gm)
 }
 
+const enrollmentIDRegx = /^[\w-]*$/gm
+
+export function isEnrollmentID(id) {
+    return typeof id === 'string' && id.match(enrollmentIDRegx) && id !== 'defaultuser'
+}
+
 export class Enrollment extends RestProxy {
 
     constructor(RESTProxyId, ...props) {
@@ -26,16 +32,16 @@ export class Enrollment extends RestProxy {
 
 
     async associate(enrollmentId, userName) {
-        // FIXME 400 for associate it to 'defaultuser'
+        assert.ok(isEnrollmentID(enrollmentId), `invalid enrollmentId format. Expect matching with ${enrollmentIDRegx}`)
         await this.http(`${enrollmentId}/users`, 'POST', {userName})
     }
 
+    async disassociate(enrollmentId, userName) {
+        await this.http(`${enrollmentId}/users/${userName}`, 'DELETE')
+    }
+
     async list(enrollmentId) {
-        if (enrollmentId) {
-            if (typeof enrollmentId !== 'string') {
-                enrollmentId = 'defaultuser'
-            //     TODO 404 'defaultuser' has no prebuilt enrollments?
-            }
+        if (isEnrollmentID(enrollmentId)) {
             return await this.http(`${enrollmentId}/users`, 'GET')
         } else {
             return await this.http('', 'GET')
@@ -43,6 +49,7 @@ export class Enrollment extends RestProxy {
     }
 
     async create(enrollmentId, attributes = {}) {
+        assert.ok(isEnrollmentID(enrollmentId), `invalid enrollmentId format. Expect matching with ${enrollmentIDRegx}`)
         return await this.http('', 'POST', {
             enrollmentId, attributes
         })

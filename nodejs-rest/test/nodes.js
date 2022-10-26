@@ -36,23 +36,27 @@ describe('restProxy', function () {
     const context = getContext();
     const enrollment = new Enrollment(restProxyId, context)
     enrollment.debug = true
+    const newEnrollmentID = 'david-khala'
     it('list enrollment', async () => {
         const r1 = await enrollment.list()
         console.info(r1)
         assert.ok(r1.includes('defaultuser'))
-        const r2 = await enrollment.list(true)// TODO 404 status
+        const r2 = await enrollment.list(newEnrollmentID)
         console.debug(r2)
     })
-    it('link new user to to default enrollment', async () => {
-        await enrollment.associate('defaultuser', 'davidkhala')
+    it('associate new user', async () => {
+        await enrollment.associate(newEnrollmentID, 'david-khala@hotmail.com')
+
+    })
+    it('disassociate new user', async () => {
+        await enrollment.disassociate(newEnrollmentID, 'david-khala@hotmail.com')
     })
     it('create enrollment', async () => {
-        const enrollmentID = 'test'
-        await enrollment.create(enrollmentID)
+        await enrollment.create(newEnrollmentID)
 
     })
     it('delete enrollment', async () => {
-        const enrollmentID = 'test'
+        const enrollmentID = 'david-khala'
         await enrollment.delete(enrollmentID)
     })
 })
