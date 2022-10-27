@@ -1,6 +1,6 @@
 import assert from 'assert';
 import Index from './index.js';
-
+import {defaultEnrollmentID} from '../constants.js'
 export class RestProxy extends Index {
 
 	async http(token, method, body) {
@@ -12,7 +12,7 @@ export function isRESTProxyId(RESTProxyId) {
 	return RESTProxyId.match(/^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}-restproxy$/gm);
 }
 
-export const defaultEnrollmentID = 'defaultuser';
+
 export const enrollmentIDRegx = /^[\w-]+$/gm;
 
 export function isEnrollmentID(id) {

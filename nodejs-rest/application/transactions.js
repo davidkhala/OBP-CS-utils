@@ -1,4 +1,5 @@
 import {RestProxy} from './index.js';
+import {defaultEnrollmentID} from '../constants.js';
 import assert from 'assert';
 
 export default class Transactions extends RestProxy {
@@ -28,5 +29,23 @@ export default class Transactions extends RestProxy {
 		const {payload, encode} = result;
 		assert.strictEqual(encode, 'JSON');
 		return payload;
+	}
+}
+
+// new from 22.2.1
+export class AtomicTx extends RestProxy {
+
+	async invoke(transactions, strictMode, enrollment = 'defaultuser') {
+		const body = {
+			isolationLevel: strictMode ? 'serializable' : 'readCommitted',
+			prepareTimeout: 30000,
+			role: defaultEnrollmentID,
+			sync: !!strictMode,
+			transactions: transactions.map(({args, chaincode, channel, endorsers, timeout, transientMap}) => ({
+				args, chaincode, channel, endorsers, timeout, transientMap
+			}))
+		};
+		const {globalStatus, globalTxid, txStartTime, transactions: txResult} = await this.http('atomicTransactions', 'POST', body);
+
 	}
 }

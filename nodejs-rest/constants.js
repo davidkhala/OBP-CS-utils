@@ -30,3 +30,4 @@ export const NodeType = {
 export const NodeStatus = {
     up: 'up'
 }
+export const defaultEnrollmentID = 'defaultuser';

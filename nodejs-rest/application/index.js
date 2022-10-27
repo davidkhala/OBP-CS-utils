@@ -23,8 +23,10 @@ export class Version extends ConnectionContext {
 		return result;
 	}
 
+	/**
+	 * new released in 22.2.1
+	 */
 	async ofFabricComponents() {
-		// FIXME OBP bug
 		const rawResult = await super.http({resourcePath: 'console/admin/api/instanceVersion', method: 'GET'});
 		console.debug(rawResult);
 		return rawResult;
