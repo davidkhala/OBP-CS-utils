@@ -1,4 +1,4 @@
-import RestProxy from '../application/index.js';
+import {RestProxy} from '../application/index.js';
 import Chaincode from '../chaincode/index.js';
 import {getContext} from './testUtil.js';
 import path from 'path';
@@ -26,7 +26,7 @@ describe('chaincode', function () {
 		const chaincode = new Chaincode(context);
 		const peers = [
 			'grpcs://founder-2-hktwlab-sin.blockchain.ocp.oraclecloud.com:20009',
-			'grpcs://founder-2-hktwlab-sin.blockchain.ocp.oraclecloud.com:20010\t'
+			'grpcs://founder-2-hktwlab-sin.blockchain.ocp.oraclecloud.com:20010'
 		];
 		const archiveFile = path.resolve('test', 'diagnose.ccPack.tar');
 		const label = 'diagnose';
@@ -45,7 +45,6 @@ describe('chaincode', function () {
 		const context = getContext();
 		const chaincode = new Chaincode(context);
 
-		const fileContent = await chaincode.get(packageId);
+		await chaincode.get(packageId);
 	});
-
 });

@@ -36,10 +36,9 @@ describe('restProxy', function () {
     const context = getContext();
     const enrollment = new Enrollment(restProxyId, context)
     enrollment.debug = true
-    const newEnrollmentID = 'david-khala'
+    const newEnrollmentID = '-'
     it('list enrollment', async () => {
         const r1 = await enrollment.list()
-        console.info(r1)
         assert.ok(r1.includes('defaultuser'))
         const r2 = await enrollment.list(newEnrollmentID)
         console.debug(r2)
